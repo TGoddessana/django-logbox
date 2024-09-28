@@ -6,9 +6,13 @@ def pytest_configure(config):
     from django.conf import settings
 
     settings.configure(
-        DEBUG_PROPAGATE_EXCEPTIONS=True,
+        DEBUG=True,
+        DEBUG_PROPAGATE_EXCEPTIONS=False, # we need this to be False to test 500 errors
         DATABASES={
-            "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:", },
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": ":memory:",
+            },
         },
         SECRET_KEY="life is suffering",
         STATIC_URL="/static/",
@@ -23,10 +27,14 @@ def pytest_configure(config):
             },
         ],
         MIDDLEWARE=(
-            "django.middleware.common.CommonMiddleware",
+            "django.middleware.security.SecurityMiddleware",
             "django.contrib.sessions.middleware.SessionMiddleware",
+            "django.middleware.common.CommonMiddleware",
+            "django.middleware.csrf.CsrfViewMiddleware",
             "django.contrib.auth.middleware.AuthenticationMiddleware",
             "django.contrib.messages.middleware.MessageMiddleware",
+            "django.middleware.clickjacking.XFrameOptionsMiddleware",
+            "django_logbox.middlewares.LogboxMiddleware",
         ),
         INSTALLED_APPS=(
             "django.contrib.admin",
@@ -36,9 +44,10 @@ def pytest_configure(config):
             "django.contrib.sites",
             "django.contrib.staticfiles",
             "django_logbox",
+            "tests",
         ),
         PASSWORD_HASHERS=("django.contrib.auth.hashers.MD5PasswordHasher",),
     )
 
     django.setup()
-    management.call_command('migrate')
+    management.call_command("migrate")
