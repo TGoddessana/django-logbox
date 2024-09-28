@@ -1,0 +1,37 @@
+name: Release package to PyPI
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - name: Install Poetry and Packages
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          poetry install
+      - name: mint API token
+        id: mint-token
+        run: |
+          resp=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=pypi")
+          oidc_token=$(jq -r '.value' <<< "${resp}")
+          resp=$(curl -X POST https://pypi.org/_/oidc/mint-token -d "{\"token\": \"${oidc_token}\"}")
+          api_token=$(jq -r '.token' <<< "${resp}")
+          echo "::add-mask::${api_token}"
+          echo "api-token=${api_token}" >> "${GITHUB_OUTPUT}"
+      - name: Build and publish to PyPI
+        run: |
+          poetry build
+          poetry publish -u __token__ -p ${{ steps.mint-token.outputs.api-token }}
