@@ -7,7 +7,7 @@ def pytest_configure(config):
 
     settings.configure(
         DEBUG=True,
-        DEBUG_PROPAGATE_EXCEPTIONS=False, # we need this to be False to test 500 errors
+        DEBUG_PROPAGATE_EXCEPTIONS=False,  # we need this to be False to test 500 errors
         DATABASES={
             "default": {
                 "ENGINE": "django.db.backends.sqlite3",

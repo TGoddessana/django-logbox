@@ -63,7 +63,11 @@ class LogboxMiddleware:
 
     @staticmethod
     def _get_querystring(request: HttpRequest):
-        return None if request.META.get("QUERY_STRING", None) == "" else request.META.get("QUERY_STRING", None)
+        return (
+            None
+            if request.META.get("QUERY_STRING", None) == ""
+            else request.META.get("QUERY_STRING", None)
+        )
 
     @staticmethod
     def _get_request_body(request: HttpRequest):
@@ -71,8 +75,11 @@ class LogboxMiddleware:
 
     @staticmethod
     def _get_timestamp(unix_timestamp: float) -> datetime:
-        return make_aware(datetime.fromtimestamp(unix_timestamp)) if settings.USE_TZ else datetime.fromtimestamp(
-            unix_timestamp)
+        return (
+            make_aware(datetime.fromtimestamp(unix_timestamp))
+            if settings.USE_TZ
+            else datetime.fromtimestamp(unix_timestamp)
+        )
 
     @staticmethod
     def _get_duration(start_timestamp: float, end_timestamp: float) -> float:
@@ -84,7 +91,7 @@ class LogboxMiddleware:
 
     @staticmethod
     def _get_traceback(exception: Exception) -> str:
-        return ''.join(traceback.format_tb(exception.__traceback__))
+        return "".join(traceback.format_tb(exception.__traceback__))
 
     @staticmethod
     def _get_server_ip(request: HttpRequest):

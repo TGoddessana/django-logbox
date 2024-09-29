@@ -4,7 +4,8 @@ from django.db.models import (
     DateTimeField,
     CharField,
     GenericIPAddressField,
-    IntegerField, DecimalField,
+    IntegerField,
+    DecimalField,
 )
 from django.utils.translation import gettext_lazy as _
 

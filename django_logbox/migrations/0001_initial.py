@@ -4,29 +4,51 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='ServerLog',
+            name="ServerLog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('method', models.CharField(max_length=10, verbose_name='method')),
-                ('path', models.CharField(max_length=255, verbose_name='path')),
-                ('status_code', models.IntegerField(verbose_name='status_code')),
-                ('user_agent', models.CharField(max_length=255, null=True, verbose_name='user_agent')),
-                ('querystring', models.TextField(null=True, verbose_name='querystring')),
-                ('request_body', models.TextField(null=True, verbose_name='request_body')),
-                ('timestamp', models.DateTimeField(verbose_name='timestamp')),
-                ('duration', models.DecimalField(decimal_places=6, max_digits=10, verbose_name='duration')),
-                ('exception', models.TextField(null=True, verbose_name='exception')),
-                ('traceback', models.TextField(null=True, verbose_name='traceback')),
-                ('server_ip', models.GenericIPAddressField(verbose_name='server_ip')),
-                ('client_ip', models.GenericIPAddressField(verbose_name='client_ip')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("method", models.CharField(max_length=10, verbose_name="method")),
+                ("path", models.CharField(max_length=255, verbose_name="path")),
+                ("status_code", models.IntegerField(verbose_name="status_code")),
+                (
+                    "user_agent",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="user_agent"
+                    ),
+                ),
+                (
+                    "querystring",
+                    models.TextField(null=True, verbose_name="querystring"),
+                ),
+                (
+                    "request_body",
+                    models.TextField(null=True, verbose_name="request_body"),
+                ),
+                ("timestamp", models.DateTimeField(verbose_name="timestamp")),
+                (
+                    "duration",
+                    models.DecimalField(
+                        decimal_places=6, max_digits=10, verbose_name="duration"
+                    ),
+                ),
+                ("exception", models.TextField(null=True, verbose_name="exception")),
+                ("traceback", models.TextField(null=True, verbose_name="traceback")),
+                ("server_ip", models.GenericIPAddressField(verbose_name="server_ip")),
+                ("client_ip", models.GenericIPAddressField(verbose_name="client_ip")),
             ],
         ),
     ]
