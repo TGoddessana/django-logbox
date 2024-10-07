@@ -46,6 +46,18 @@ class LogboxMiddleware:
         return None
 
     @staticmethod
+    def _filter_requests(request: HttpRequest):
+        return (
+            request.method in settings.LOGGING_HTTP_METHODS
+            and request.path.match(settings.LOGGING_PATHS_REGEX)
+            and not request.path.match(settings.LOGGING_EXCLUDE_PATHS_REGEX)
+        )
+
+    @staticmethod
+    def _filter_responses(response: HttpResponse):
+        return response.status_code in settings.LOGGING_STATUS_CODES
+
+    @staticmethod
     def _get_method(request: HttpRequest):
         return request.method
 
