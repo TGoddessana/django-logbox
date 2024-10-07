@@ -5,7 +5,6 @@ from django.db.models import (
     CharField,
     GenericIPAddressField,
     IntegerField,
-    DecimalField,
 )
 from django.utils.translation import gettext_lazy as _
 
@@ -21,7 +20,6 @@ class ServerLog(Model):
 
     # log
     timestamp = DateTimeField(_("timestamp"))
-    duration = DecimalField(_("duration"), max_digits=10, decimal_places=6)
     exception = TextField(_("exception"), null=True)
     traceback = TextField(_("traceback"), null=True)
 

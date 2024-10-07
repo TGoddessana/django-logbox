@@ -17,7 +17,6 @@ class LogboxMiddleware:
     def __call__(self, request: HttpRequest):
         start_timestamp = time()
         response = self.get_response(request)
-        end_timestamp = time()
 
         data = {
             "method": self._get_method(request),
@@ -26,7 +25,6 @@ class LogboxMiddleware:
             "querystring": self._get_querystring(request),
             "request_body": self._get_request_body(request),
             "timestamp": self._get_timestamp(start_timestamp),
-            "duration": self._get_duration(start_timestamp, end_timestamp),
             "server_ip": self._get_server_ip(request),
             "client_ip": self._get_client_ip(request),
             "status_code": self._get_status_code(response),
@@ -92,10 +90,6 @@ class LogboxMiddleware:
             if settings.USE_TZ
             else datetime.fromtimestamp(unix_timestamp)
         )
-
-    @staticmethod
-    def _get_duration(start_timestamp: float, end_timestamp: float) -> float:
-        return end_timestamp - start_timestamp
 
     @staticmethod
     def _get_exception_type(exception: Exception) -> str:
