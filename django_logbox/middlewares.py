@@ -1,3 +1,4 @@
+import re
 import traceback
 from datetime import datetime
 from time import time
@@ -6,6 +7,7 @@ from django.conf import settings
 from django.http import HttpRequest, HttpResponse
 from django.utils.timezone import make_aware
 
+from django_logbox.app_settings import app_settings
 from django_logbox.models import ServerLog
 
 
@@ -48,15 +50,20 @@ class LogboxMiddleware:
 
     @staticmethod
     def _filter_requests(request: HttpRequest):
+        logging_paths_regex = re.compile(app_settings.LOGGING_PATHS_REGEX)
+        logging_exclude_paths_regex = re.compile(
+            app_settings.LOGGING_EXCLUDE_PATHS_REGEX
+        )
+
         return (
-            request.method in settings.LOGGING_HTTP_METHODS
-            and request.path.match(settings.LOGGING_PATHS_REGEX)
-            and not request.path.match(settings.LOGGING_EXCLUDE_PATHS_REGEX)
+            request.method in app_settings.LOGGING_HTTP_METHODS
+            and logging_paths_regex.match(request.path)
+            and not logging_exclude_paths_regex.match(request.path)
         )
 
     @staticmethod
     def _filter_responses(response: HttpResponse):
-        return response.status_code in settings.LOGGING_STATUS_CODES
+        return response.status_code in app_settings.LOGGING_STATUS_CODES
 
     @staticmethod
     def _get_method(request: HttpRequest):
