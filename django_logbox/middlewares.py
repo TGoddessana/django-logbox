@@ -42,7 +42,8 @@ class LogboxMiddleware:
 
     def process_exception(self, request: HttpRequest, exception: Exception):
         exception_data = {
-            "exception": self._get_exception_type(exception),
+            "exception_type": self._get_exception_type(exception),
+            "exception_message": str(exception),
             "traceback": self._get_traceback(exception),
         }
         self._data = exception_data

@@ -20,7 +20,8 @@ class ServerLog(Model):
 
     # log
     timestamp = DateTimeField(_("timestamp"))
-    exception = TextField(_("exception"), null=True)
+    exception_type = TextField(_("exception"), null=True)
+    exception_message = TextField(_("exception_message"), null=True)
     traceback = TextField(_("traceback"), null=True)
 
     # server

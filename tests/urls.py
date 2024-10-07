@@ -11,7 +11,7 @@ def _200_view(request):
 
 
 def _500_view(request):
-    raise Exception("Unexpected error")
+    return 1 / 0
 
 
 urlpatterns = [

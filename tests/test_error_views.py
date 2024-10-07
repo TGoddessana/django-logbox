@@ -17,4 +17,6 @@ def test_unexpected_error_view_logger(client: Client):
 
     client.get(reverse("unexpected_error_view"))
     assert ServerLog.objects.count() == 1
-    print(ServerLog.objects.first().traceback)
+    assert ServerLog.objects.first().exception_type == "ZeroDivisionError"
+    assert ServerLog.objects.first().exception_message == "division by zero"
+    # print(ServerLog.objects.first().traceback)

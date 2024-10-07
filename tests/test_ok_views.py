@@ -18,7 +18,7 @@ def test_ok_view_log_saved(client: Client):
     assert saved_log.user_agent is None
     assert saved_log.querystring is None
     assert saved_log.request_body is None
-    assert saved_log.exception is None
+    assert saved_log.exception_type is None
     assert saved_log.traceback is None
     assert saved_log.server_ip == "testserver"
     assert saved_log.client_ip == "127.0.0.1"
