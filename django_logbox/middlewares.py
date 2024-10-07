@@ -18,6 +18,9 @@ class LogboxMiddleware:
         start_timestamp = time()
         response = self.get_response(request)
 
+        if not self._filter_requests(request) or not self._filter_responses(response):
+            return response
+
         data = {
             "method": self._get_method(request),
             "path": self._get_path(request),
