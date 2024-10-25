@@ -1,5 +1,4 @@
 import django
-from django.core import management
 
 
 def pytest_configure(config):
@@ -50,4 +49,3 @@ def pytest_configure(config):
     )
 
     django.setup()
-    management.call_command("migrate")
