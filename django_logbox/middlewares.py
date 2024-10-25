@@ -17,7 +17,7 @@ class LogboxMiddleware:
         self._data = {}
 
     def __call__(self, request: HttpRequest):
-        start_timestamp = time()
+        timestamp = time()
         response = self.get_response(request)
 
         if not self._filter_requests(request) or not self._filter_responses(response):
@@ -29,7 +29,7 @@ class LogboxMiddleware:
             "user_agent": self._get_user_agent(request),
             "querystring": self._get_querystring(request),
             "request_body": self._get_request_body(request),
-            "timestamp": self._get_timestamp(start_timestamp),
+            "timestamp": self._get_timestamp(timestamp),
             "server_ip": self._get_server_ip(request),
             "client_ip": self._get_client_ip(request),
             "status_code": self._get_status_code(response),
