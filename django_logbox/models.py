@@ -27,7 +27,7 @@ class ServerLog(Model):
         _("status_code"),
         help_text=_("HTTP status code of the response, e.g., 200, 404, 500."),
     )
-    user_agent = CharField(
+    user_agent = TextField(
         _("user_agent"),
         help_text=_(
             "User agent string from the client's request header, providing browser and OS details."
@@ -55,9 +55,10 @@ class ServerLog(Model):
         _("timestamp"),
         help_text=_("Date and time when this log entry was created."),
     )
-    exception_type = TextField(
+    exception_type = CharField(
         _("exception_type"),
         help_text=_("Class name or type of the exception, if any occurred."),
+        max_length=255,
         null=True,
     )
     exception_message = TextField(
