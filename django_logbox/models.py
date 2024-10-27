@@ -81,4 +81,9 @@ class ServerLog(Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.method} {self.path}"
+        return f"{self.timestamp} {self.method} {self.path} {self.status_code}"
+
+    class Meta:
+        verbose_name = _("Server Log")
+        verbose_name_plural = _("Server Logs")
+        ordering = ("-timestamp",)
