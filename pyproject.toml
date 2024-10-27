@@ -5,6 +5,10 @@ description = "Your small, but useful django log box. 📦"
 authors = ["tgoddessana <twicegoddessana1229@gmail.com>"]
 readme = "README.md"
 
+packages = [
+    { include = "django_logbox" },
+]
+
 [tool.poetry.dependencies]
 python = "^3.12"
 django = ">=4.2"
