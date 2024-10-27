@@ -68,6 +68,9 @@ class ServerLogAdmin(admin.ModelAdmin):
         ),
     )
 
+    search_fields = ("status_code", "exception_message")
+    list_filter = ("method", "status_code", "timestamp")
+
     @staticmethod
     def short_user_agent(obj):
         max_length = 30
