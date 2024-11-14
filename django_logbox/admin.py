@@ -72,6 +72,7 @@ class ServerLogAdmin(admin.ModelAdmin):
     list_filter = ("method", "status_code", "timestamp")
 
     @staticmethod
+    @admin.display(description=_("User Agent"))
     def short_user_agent(obj):
         max_length = 30
         return (
