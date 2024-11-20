@@ -3,14 +3,22 @@ from django.conf import settings
 from http import HTTPStatus
 
 DEFAULTS = {
-    # default to all http methods
+    # HTTP methods to log. Default to all
     "LOGGING_HTTP_METHODS": ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    # default to all http status codes
+    # IP addresses to log. Default to all
+    "LOGGING_SERVER_IP": ["*"],
+    # IP addresses to log. Default to all
+    "LOGGING_CLIENT_IP": ["*"],
+    # Status codes to log. Default to all
     "LOGGING_STATUS_CODES": [http_code.value for http_code in HTTPStatus],
-    # default to all paths
+    # Path regex to log. Default to all
     "LOGGING_PATHS_REGEX": r"^/.*$",
-    # default to exclude admin paths
+    # Path regex to exclude from logging. Default to exclude admin
     "LOGGING_EXCLUDE_PATHS_REGEX": r"^/admin/.*$",
+    # The number of logs to insert in bulk. The default is 1, which means insert logs instantly.
+    "LOGGING_DAEMON_QUEUE_SIZE": 1,
+    # The number of seconds between log insertion attempts. The default is 0.
+    "LOGGING_DAEMON_INTERVAL": 0,
 }
 
 

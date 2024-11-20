@@ -81,5 +81,5 @@ LOGBOX_SETTINGS = {
     # Queue size, 0 if you want to log instantly
     "LOGGING_DAEMON_QUEUE_SIZE": 3,
     # Interval time to log, in seconds. 0 if you want to log instantly
-    "LOGGING_DAEMON_INTERVAL": 3,
+    "LOGGING_DAEMON_INTERVAL": 10,
 }
