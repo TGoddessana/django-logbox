@@ -6,9 +6,9 @@ DEFAULTS = {
     # HTTP methods to log. Default to all
     "LOGGING_HTTP_METHODS": ["GET", "POST", "PUT", "PATCH", "DELETE"],
     # IP addresses to log. Default to all
-    "LOGGING_SERVER_IP": ["*"],
+    "LOGGING_SERVER_IPS": ["*"],
     # IP addresses to log. Default to all
-    "LOGGING_CLIENT_IP": ["*"],
+    "LOGGING_CLIENT_IPS": ["*"],
     # Status codes to log. Default to all
     "LOGGING_STATUS_CODES": [http_code.value for http_code in HTTPStatus],
     # Path regex to log. Default to all
