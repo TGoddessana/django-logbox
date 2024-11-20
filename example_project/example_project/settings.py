@@ -1,5 +1,5 @@
 import os
-
+from http import HTTPStatus
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -64,3 +64,22 @@ DATABASES = {
 STATIC_URL = "/static/"
 
 USE_TZ = True
+
+LOGBOX_SETTINGS = {
+    # HTTP methods to log. Default to all
+    "LOGGING_HTTP_METHODS": ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    # IP addresses to log. Default to all
+    "LOGGING_SERVER_IP": ["*"],
+    # IP addresses to log. Default to all
+    "LOGGING_CLIENT_IP": ["*"],
+    # Status codes to log. Default to all
+    "LOGGING_STATUS_CODES": [http_code.value for http_code in HTTPStatus],
+    # Path regex to log. Default to all
+    "LOGGING_PATHS_REGEX": r"^/.*$",
+    # Path regex to exclude from logging. Default to exclude admin
+    "LOGGING_EXCLUDE_PATHS_REGEX": r"^/admin/.*$",
+    # Queue size, 0 if you want to log instantly
+    "LOGGING_DAEMON_QUEUE_SIZE": 3,
+    # Interval time to log, in seconds. 0 if you want to log instantly
+    "LOGGING_DAEMON_INTERVAL": 3,
+}
