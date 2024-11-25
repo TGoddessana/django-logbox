@@ -40,29 +40,37 @@ class LogboxMiddleware:
 
     @staticmethod
     def _filter_requests(request: HttpRequest):
-        # filter client ip
-        client_ip = _get_client_ip(request)
+        return (
+            LogboxMiddleware._filter_client_ip(request)
+            and LogboxMiddleware._filter_server_ip(request)
+            and LogboxMiddleware._filter_path(request)
+        )
+
+    @staticmethod
+    def _filter_client_ip(request: HttpRequest):
+        """Filter requests based on client IP."""
         logging_client_ips = app_settings.LOGGING_CLIENT_IPS
-        if "*" not in logging_client_ips and client_ip not in logging_client_ips:
-            return False
+        client_ip = _get_client_ip(request)
+        return "*" in logging_client_ips or client_ip in logging_client_ips
 
-        # filter server ip
-        server_ip = _get_server_ip(request)
+    @staticmethod
+    def _filter_server_ip(request: HttpRequest):
+        """Filter requests based on server IP."""
         logging_server_ips = app_settings.LOGGING_SERVER_IPS
-        if "*" not in logging_server_ips and server_ip not in logging_server_ips:
-            return False
+        server_ip = _get_server_ip(request)
+        return "*" in logging_server_ips or server_ip in logging_server_ips
 
-        # filter paths
+    @staticmethod
+    def _filter_path(request: HttpRequest):
+        """Filter requests based on path patterns."""
         logging_paths_regex = re.compile(app_settings.LOGGING_PATHS_REGEX)
         logging_exclude_paths_regex = re.compile(
             app_settings.LOGGING_EXCLUDE_PATHS_REGEX
         )
-
-        return (
-            request.method in app_settings.LOGGING_HTTP_METHODS
-            and logging_paths_regex.match(request.path)
-            and not logging_exclude_paths_regex.match(request.path)
-        )
+        path = request.path
+        return logging_paths_regex.match(
+            path
+        ) and not logging_exclude_paths_regex.match(path)
 
     @staticmethod
     def _filter_responses(response: HttpResponse):
