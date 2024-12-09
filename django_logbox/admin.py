@@ -74,6 +74,8 @@ class ServerLogAdmin(admin.ModelAdmin):
     @staticmethod
     @admin.display(description=_("User Agent"))
     def short_user_agent(obj):
+        if not obj.user_agent:
+            return None
         max_length = 30
         return (
             (obj.user_agent[:max_length] + "...")
