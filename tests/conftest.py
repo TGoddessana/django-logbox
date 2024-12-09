@@ -1,4 +1,6 @@
 import django
+import pytest
+from django.test import RequestFactory
 
 
 def pytest_configure(config):
@@ -49,3 +51,8 @@ def pytest_configure(config):
     )
 
     django.setup()
+
+
+@pytest.fixture
+def factory():
+    return RequestFactory()
