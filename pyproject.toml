@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-logbox"
-version = "0.0.9"
+version = "0.0.10"
 description = "Your small, but useful django log box. 📦"
 authors = ["tgoddessana <twicegoddessana1229@gmail.com>"]
 readme = "README.md"
