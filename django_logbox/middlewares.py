@@ -4,8 +4,10 @@ from time import time
 from django.http import HttpRequest, HttpResponse
 
 from django_logbox.app_settings import app_settings
-from django_logbox.threading import logger_thread
+from django_logbox.threading import get_logbox_thread
 from django_logbox.utils import get_log_data, _get_client_ip, _get_server_ip
+
+logger_thread = get_logbox_thread()
 
 
 class LogboxMiddleware:
