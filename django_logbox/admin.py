@@ -69,7 +69,7 @@ class ServerLogAdmin(admin.ModelAdmin):
     )
 
     search_fields = ("status_code", "exception_message")
-    list_filter = ("method", "status_code", "timestamp")
+    list_filter = ("method", "status_code", "path", "timestamp")
 
     @staticmethod
     @admin.display(description=_("User Agent"))
