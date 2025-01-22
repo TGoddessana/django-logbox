@@ -5,10 +5,10 @@ from http import HTTPStatus
 DEFAULTS = {
     # HTTP methods to log. Default to all
     "LOGGING_HTTP_METHODS": ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    # IP addresses to log. Default to all
-    "LOGGING_SERVER_IPS": ["*"],
-    # IP addresses to log. Default to all
-    "LOGGING_CLIENT_IPS": ["*"],
+    # exclude server IPs from logging. Default to not exclude any
+    "LOGGING_SERVER_IPS_TO_EXCLUDE": [],
+    # exclude client IPs from logging. Default to not exclude any
+    "LOGGING_CLIENT_IPS_TO_EXCLUDE": [],
     # Status codes to log. Default to all
     "LOGGING_STATUS_CODES": [http_code.value for http_code in HTTPStatus],
     # Path regex to log. Default to all

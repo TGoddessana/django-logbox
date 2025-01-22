@@ -66,20 +66,12 @@ STATIC_URL = "/static/"
 USE_TZ = True
 
 LOGBOX_SETTINGS = {
-    # HTTP methods to log. Default to all
     "LOGGING_HTTP_METHODS": ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    # IP addresses to log. Default to all
-    "LOGGING_SERVER_IPS": ["*"],
-    # IP addresses to log. Default to all
-    "LOGGING_CLIENT_IPS": ["*"],
-    # Status codes to log. Default to all
+    "LOGGING_SERVER_IPS_TO_EXCLUDE": [],
+    "LOGGING_CLIENT_IPS_TO_EXCLUDE": [],
     "LOGGING_STATUS_CODES": [http_code.value for http_code in HTTPStatus],
-    # Path regex to log. Default to all
     "LOGGING_PATHS_REGEX": r"^/.*$",
-    # Path regex to exclude from logging. Default to exclude admin
     "LOGGING_EXCLUDE_PATHS_REGEX": r"^/admin/.*$",
-    # Queue size, 0 if you want to log instantly
     "LOGGING_DAEMON_QUEUE_SIZE": 3,
-    # Interval time to log, in seconds. 0 if you want to log instantly
     "LOGGING_DAEMON_INTERVAL": 10,
 }

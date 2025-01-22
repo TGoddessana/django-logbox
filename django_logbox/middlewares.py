@@ -41,7 +41,7 @@ class LogboxMiddleware:
         return None
 
     @staticmethod
-    def _filter_requests(request: HttpRequest):
+    def _filter_requests(request: HttpRequest) -> bool:
         return (
             LogboxMiddleware._filter_client_ip(request)
             and LogboxMiddleware._filter_server_ip(request)
@@ -49,18 +49,22 @@ class LogboxMiddleware:
         )
 
     @staticmethod
-    def _filter_client_ip(request: HttpRequest):
-        """Filter requests based on client IP."""
-        logging_client_ips = app_settings.LOGGING_CLIENT_IPS
-        client_ip = _get_client_ip(request)
-        return "*" in logging_client_ips or client_ip in logging_client_ips
+    def _filter_client_ip(request: HttpRequest) -> bool:
+        """
+        Filter requests based on client IP.
+
+        :return: True if the request should be logged, False otherwise.
+        """
+        return _get_client_ip(request) not in app_settings.LOGGING_CLIENT_IPS_TO_EXCLUDE
 
     @staticmethod
     def _filter_server_ip(request: HttpRequest):
-        """Filter requests based on server IP."""
-        logging_server_ips = app_settings.LOGGING_SERVER_IPS
-        server_ip = _get_server_ip(request)
-        return "*" in logging_server_ips or server_ip in logging_server_ips
+        """
+        Filter requests based on server IP.
+
+        :return: True if the request should be logged, False otherwise.
+        """
+        return _get_server_ip(request) not in app_settings.LOGGING_SERVER_IPS_TO_EXCLUDE
 
     @staticmethod
     def _filter_path(request: HttpRequest):
