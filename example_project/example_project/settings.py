@@ -70,8 +70,7 @@ LOGBOX_SETTINGS = {
     "LOGGING_SERVER_IPS_TO_EXCLUDE": [],
     "LOGGING_CLIENT_IPS_TO_EXCLUDE": [],
     "LOGGING_STATUS_CODES": [http_code.value for http_code in HTTPStatus],
-    "LOGGING_PATHS_REGEX": r"^/.*$",
-    "LOGGING_EXCLUDE_PATHS_REGEX": r"^/admin/.*$",
+    "LOGGING_PATHS_TO_EXCLUDE": [r"^/admin(/.*)?$"],
     "LOGGING_DAEMON_QUEUE_SIZE": 3,
     "LOGGING_DAEMON_INTERVAL": 10,
 }

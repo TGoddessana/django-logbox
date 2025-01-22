@@ -11,10 +11,8 @@ DEFAULTS = {
     "LOGGING_CLIENT_IPS_TO_EXCLUDE": [],
     # Status codes to log. Default to all
     "LOGGING_STATUS_CODES": [http_code.value for http_code in HTTPStatus],
-    # Path regex to log. Default to all
-    "LOGGING_PATHS_REGEX": r"^/.*$",
-    # Path regex to exclude from logging. Default to exclude admin
-    "LOGGING_EXCLUDE_PATHS_REGEX": r"^/admin/.*$",
+    # Path regex to exclude from logging. Default to not exclude any
+    "LOGGING_PATHS_TO_EXCLUDE": [],
     # The number of logs to insert in bulk. The default is 1, which means insert logs instantly.
     "LOGGING_DAEMON_QUEUE_SIZE": 1,
     # The number of seconds between log insertion attempts. The default is 0.

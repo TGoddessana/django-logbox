@@ -67,16 +67,13 @@ class LogboxMiddleware:
         return _get_server_ip(request) not in app_settings.LOGGING_SERVER_IPS_TO_EXCLUDE
 
     @staticmethod
-    def _filter_path(request: HttpRequest):
+    def _filter_path(request: HttpRequest) -> bool:
         """Filter requests based on path patterns."""
-        logging_paths_regex = re.compile(app_settings.LOGGING_PATHS_REGEX)
-        logging_exclude_paths_regex = re.compile(
-            app_settings.LOGGING_EXCLUDE_PATHS_REGEX
+
+        return not any(
+            re.match(path, request.path)
+            for path in app_settings.LOGGING_PATHS_TO_EXCLUDE
         )
-        path = request.path
-        return logging_paths_regex.match(
-            path
-        ) and not logging_exclude_paths_regex.match(path)
 
     @staticmethod
     def _filter_responses(response: HttpResponse):
