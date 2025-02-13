@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # install djanog_logbox for testing
+    # install django_logbox for testing
     "django_logbox",
 ]
 
