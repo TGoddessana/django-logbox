@@ -1,8 +1,7 @@
 import logging
-import time
 import threading
+import time
 from queue import Queue
-
 
 logger = logging.getLogger("logbox")
 

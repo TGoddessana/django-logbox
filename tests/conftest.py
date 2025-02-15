@@ -5,7 +5,6 @@ import pytest
 from django.test import RequestFactory
 
 
-
 def pytest_configure(config):
     from django.conf import settings
 
@@ -59,7 +58,6 @@ def pytest_configure(config):
 @pytest.fixture
 def factory():
     return RequestFactory()
-
 
 
 @pytest.fixture

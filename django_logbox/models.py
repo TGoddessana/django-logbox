@@ -1,10 +1,10 @@
 from django.db.models import (
-    Model,
-    TextField,
-    DateTimeField,
     CharField,
+    DateTimeField,
     GenericIPAddressField,
     IntegerField,
+    Model,
+    TextField,
 )
 from django.utils.translation import gettext_lazy as _
 

@@ -1,4 +1,5 @@
 from http import HTTPStatus
+
 from django.conf import settings
 
 settings.LOGBOX_SETTINGS = getattr(

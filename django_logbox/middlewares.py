@@ -1,10 +1,11 @@
 import re
 from time import time
 
-from django.http import HttpRequest, HttpResponse
 from django.conf import settings
+from django.http import HttpRequest, HttpResponse
+
 from django_logbox.threading import ServerLogInsertThread
-from django_logbox.utils import get_log_data, _get_client_ip, _get_server_ip
+from django_logbox.utils import _get_client_ip, _get_server_ip, get_log_data
 
 logbox_logger_thread = ServerLogInsertThread.get_instance()
 

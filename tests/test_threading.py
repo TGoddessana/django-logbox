@@ -1,5 +1,5 @@
-
 import pytest
+
 from django_logbox.models import ServerLog
 from django_logbox.threading import ServerLogInsertThread
 
