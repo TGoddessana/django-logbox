@@ -2,12 +2,11 @@ import re
 from time import time
 
 from django.http import HttpRequest, HttpResponse
-
-from django_logbox.app_settings import app_settings
-from django_logbox.threading import get_logbox_thread
+from django.conf import settings
+from django_logbox.threading import ServerLogInsertThread
 from django_logbox.utils import get_log_data, _get_client_ip, _get_server_ip
 
-logger_thread = get_logbox_thread()
+logbox_logger_thread = ServerLogInsertThread.get_instance()
 
 
 class LogboxMiddleware:
@@ -21,22 +20,24 @@ class LogboxMiddleware:
         if not self._filter_requests(request) or not self._filter_responses(response):
             return response
 
-        if logger_thread:
-            # Avoid logging the same request twice from process_exception
-            if not hasattr(request, "logbox_logged"):
-                logger_thread.put_serverlog(
-                    get_log_data(timestamp, request, response),
-                )
-                request.logbox_logged = True
+        if not hasattr(request, "logbox_logged"):
+            logbox_logger_thread.put_serverlog(
+                get_log_data(
+                    timestamp=timestamp,
+                    request=request,
+                    response=response,
+                    exception=None,
+                ),
+            )
+            request.logbox_logged = True
 
         return response
 
     def process_exception(self, request: HttpRequest, exception: Exception):
         data = get_log_data(time(), request, None, exception)
 
-        if logger_thread:
-            logger_thread.put_serverlog(data)
-            request.logbox_logged = True
+        logbox_logger_thread.put_serverlog(data)
+        request.logbox_logged = True
 
         return None
 
@@ -55,7 +56,10 @@ class LogboxMiddleware:
 
         :return: True if the request should be logged, False otherwise.
         """
-        return _get_client_ip(request) not in app_settings.LOGGING_CLIENT_IPS_TO_EXCLUDE
+        return (
+            _get_client_ip(request)
+            not in settings.LOGBOX_SETTINGS["LOGGING_CLIENT_IPS_TO_EXCLUDE"]
+        )
 
     @staticmethod
     def _filter_server_ip(request: HttpRequest):
@@ -64,7 +68,10 @@ class LogboxMiddleware:
 
         :return: True if the request should be logged, False otherwise.
         """
-        return _get_server_ip(request) not in app_settings.LOGGING_SERVER_IPS_TO_EXCLUDE
+        return (
+            _get_server_ip(request)
+            not in settings.LOGBOX_SETTINGS["LOGGING_SERVER_IPS_TO_EXCLUDE"]
+        )
 
     @staticmethod
     def _filter_path(request: HttpRequest) -> bool:
@@ -72,9 +79,9 @@ class LogboxMiddleware:
 
         return not any(
             re.match(path, request.path)
-            for path in app_settings.LOGGING_PATHS_TO_EXCLUDE
+            for path in settings.LOGBOX_SETTINGS["LOGGING_PATHS_TO_EXCLUDE"]
         )
 
     @staticmethod
     def _filter_responses(response: HttpResponse):
-        return response.status_code in app_settings.LOGGING_STATUS_CODES
+        return response.status_code in settings.LOGBOX_SETTINGS["LOGGING_STATUS_CODES"]

@@ -36,7 +36,7 @@
 
 <br/>
 
-## About Django-Logbox
+## Django-Logbox
 
 - todo
 
@@ -58,9 +58,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-- Email: twicegoddessana1229@gmail.com
-- Project
-  Link: [https://github.com/tgoddessana/Django-Logbox](https://github.com/tgoddessana/Django-Logbox)
+- Author Email: twicegoddessana1229@gmail.com
+- Project Link: [https://github.com/tgoddessana/Django-Logbox](https://github.com/tgoddessana/Django-Logbox)
 
 <!---------------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------------->
