@@ -10,5 +10,4 @@ def handled_error_view(request: HttpRequest) -> HttpResponse:
 
 
 def unhandled_error_view(request: HttpRequest) -> HttpResponse:
-    1 / 0
-    return HttpResponse("ERROR")
+    return 1 / 0
