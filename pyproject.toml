@@ -12,6 +12,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.9"
 django = ">=4.2"
+ua-parser = {extras = ["regex"], version = "^1.0.1"}
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.6.4"
