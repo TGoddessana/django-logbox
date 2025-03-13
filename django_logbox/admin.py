@@ -89,9 +89,21 @@ class ServerLogAdmin(admin.ModelAdmin):
             return None
         result = parse(obj.user_agent)
 
-        device_details = f"Device: {result.device.family}({result.device.brand}, {result.device.model})"
-        os_details = f"OS: {result.os.family}({result.os.major}.{result.os.minor}.{result.os.patch})"
-        user_agent_details = f"User-Agent: {result.user_agent.family}({result.os.major}.{result.os.minor}.{result.os.patch})"
+        device_details = (
+            f"Device: {result.device.family}({result.device.brand}, {result.device.model})"
+            if result.device
+            else _("No device data found.")
+        )
+        os_details = (
+            f"OS: {result.os.family}({result.os.major}.{result.os.minor}.{result.os.patch})"
+            if result.os
+            else _("No OS data fount.")
+        )
+        user_agent_details = (
+            f"User-Agent: {result.user_agent.family}({result.os.major}.{result.os.minor}.{result.os.patch})"
+            if result.os
+            else _("No User-Agent data found.")
+        )
 
         return format_html(
             f"<p>{obj.user_agent}</p>"
