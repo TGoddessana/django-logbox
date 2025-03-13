@@ -13,7 +13,6 @@ class ServerLogAdmin(admin.ModelAdmin):
         "short_user_agent",
         "timestamp",
         "exception_type",
-        "exception_message",
         "server_ip",
         "client_ip",
     )
