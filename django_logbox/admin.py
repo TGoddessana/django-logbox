@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
-from ua_parser import parse
+from ua_parser import Result, parse
 
 from .models import ServerLog
 
@@ -14,7 +14,6 @@ class ServerLogAdmin(admin.ModelAdmin):
         "status_code",
         "user_agent_summary",
         "timestamp",
-        "exception_type",
         "server_ip",
         "client_ip",
     )
@@ -69,64 +68,102 @@ class ServerLogAdmin(admin.ModelAdmin):
             },
         ),
     )
-    list_display_links = ("method", "path")
-    search_fields = ("status_code", "exception_message")
-    list_filter = ("method", "status_code", "path", "timestamp")
+    list_display_links = (
+        "method",
+        "path",
+    )
+    search_fields = (
+        "status_code",
+        "exception_message",
+        "client_ip",
+        "server_ip",
+    )
+    list_filter = (
+        "method",
+        "status_code",
+        "path",
+        "timestamp",
+    )
 
-    @staticmethod
     @admin.display(description=_("User-Agent Summary"))
-    def user_agent_summary(obj):
+    def user_agent_summary(self, obj):
         if not obj.user_agent:
             return None
-        _parsed_useragent_result = parse(obj.user_agent)
+        return self._get_useragent_summary(parse(obj.user_agent))
 
-        device_summary = (
-            _parsed_useragent_result.device.family
-            if _parsed_useragent_result.device
-            else "X"
-        )
-        os_summary = (
-            _parsed_useragent_result.os.family
-            if _parsed_useragent_result.device
-            else "X"
-        )
-        user_agent_summary = (
-            _parsed_useragent_result.user_agent.family
-            if _parsed_useragent_result.user_agent
-            else "X"
-        )
-
-        return f"{device_summary}, {os_summary}, {user_agent_summary}"
-
-    @staticmethod
     @admin.display(description=_("User-Agent Details"))
-    def user_agent_details(obj):
+    def user_agent_details(self, obj):
         if not obj.user_agent:
             return None
         _parsed_useragent_result = parse(obj.user_agent)
 
-        device_details = (
-            f"Device: {_parsed_useragent_result.device.family}({_parsed_useragent_result.device.brand}, {_parsed_useragent_result.device.model})"
-            if _parsed_useragent_result.device
-            else _("No device data found.")
-        )
-        os_details = (
-            f"OS: {_parsed_useragent_result.os.family}({_parsed_useragent_result.os.major}.{_parsed_useragent_result.os.minor}.{_parsed_useragent_result.os.patch})"
-            if _parsed_useragent_result.os
-            else _("No OS data fount.")
-        )
-        user_agent_details = (
-            f"User-Agent: {_parsed_useragent_result.user_agent.family}({_parsed_useragent_result.os.major}.{_parsed_useragent_result.os.minor}.{_parsed_useragent_result.os.patch})"
-            if _parsed_useragent_result.os
-            else _("No User-Agent data found.")
-        )
+        _details = self._get_useragent_details(_parsed_useragent_result)
 
         return format_html(
             f"<p>{obj.user_agent}</p>"
-            f"<li>{device_details}</li>"
-            f"<li>{os_details}</li>"
-            f"<li>{user_agent_details}</li>"
+            f"<li>{_details["device"]}</li>"
+            f"<li>{_details["os"]}</li>"
+            f"<li>{_details["user-agent"]}</li>"
         )
+
+    @staticmethod
+    def _get_useragent_summary(parsed_useragent_result: Result):
+        device_summary = (
+            parsed_useragent_result.device.family
+            if parsed_useragent_result.device
+            else "X"
+        )
+        os_summary = (
+            parsed_useragent_result.os.family if parsed_useragent_result.os else "X"
+        )
+        user_agent_summary = (
+            parsed_useragent_result.user_agent.family
+            if parsed_useragent_result.user_agent
+            else "X"
+        )
+        return f"{device_summary}/{os_summary}/{user_agent_summary}"
+
+    def _get_useragent_details(self, parsed_useragent_result: Result):
+        device_details = (
+            f"Device: {parsed_useragent_result.device.family}"
+            f"("
+            f"{parsed_useragent_result.device.brand}, {parsed_useragent_result.device.model}"
+            f")"
+            if parsed_useragent_result.device
+            else _("No device data found.")
+        )
+        os_details = (
+            f"OS: {parsed_useragent_result.os.family}"
+            f"("
+            f"{self._empty_str_if_none(parsed_useragent_result.os.major)}."
+            f"{self._empty_str_if_none(parsed_useragent_result.os.minor)}."
+            f"{self._empty_str_if_none(parsed_useragent_result.os.patch)}"
+            f")"
+            if parsed_useragent_result.os
+            else _("No OS data found.")
+        )
+        user_agent_details = (
+            f"User-Agent: {parsed_useragent_result.user_agent.family}"
+            f"("
+            f"{self._empty_str_if_none(parsed_useragent_result.os.major)}."
+            f"{self._empty_str_if_none(parsed_useragent_result.os.minor)}."
+            f"{self._empty_str_if_none(parsed_useragent_result.os.patch)}"
+            f")"
+            if parsed_useragent_result.user_agent
+            else _("No User-Agent data found.")
+        )
+
+        return {
+            "device": device_details,
+            "os": os_details,
+            "user_agent": user_agent_details,
+        }
+
+    @staticmethod
+    def _empty_str_if_none(value):
+        if value is None:
+            return ""
+        return value
 
     def has_add_permission(self, request):
         return False
