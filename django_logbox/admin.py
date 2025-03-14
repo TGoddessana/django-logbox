@@ -103,7 +103,7 @@ class ServerLogAdmin(admin.ModelAdmin):
             f"<p>{obj.user_agent}</p>"
             f"<li>{_details["device"]}</li>"
             f"<li>{_details["os"]}</li>"
-            f"<li>{_details["user-agent"]}</li>"
+            f"<li>{_details["user_agent"]}</li>"
         )
 
     @staticmethod
