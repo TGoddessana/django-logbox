@@ -81,13 +81,17 @@ class ServerLogAdmin(admin.ModelAdmin):
         _parsed_useragent_result = parse(obj.user_agent)
 
         device_summary = (
-            _parsed_useragent_result.device.family if _parsed_useragent_result else "X"
+            _parsed_useragent_result.device.family
+            if _parsed_useragent_result.device
+            else "X"
         )
         os_summary = (
-            _parsed_useragent_result.os.family if _parsed_useragent_result else "X"
+            _parsed_useragent_result.os.family
+            if _parsed_useragent_result.device
+            else "X"
         )
         user_agent_summary = (
-            _parsed_useragent_result.user_agent if _parsed_useragent_result else "X"
+            _parsed_useragent_result.user_agent if _parsed_useragent_result.os else "X"
         )
 
         return f"{device_summary}, {os_summary}, {user_agent_summary}"
