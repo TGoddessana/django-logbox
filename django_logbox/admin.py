@@ -92,7 +92,7 @@ class ServerLogAdmin(admin.ModelAdmin):
         )
         user_agent_summary = (
             _parsed_useragent_result.user_agent.family
-            if _parsed_useragent_result.os
+            if _parsed_useragent_result.user_agent
             else "X"
         )
 
