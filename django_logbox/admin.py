@@ -91,7 +91,9 @@ class ServerLogAdmin(admin.ModelAdmin):
             else "X"
         )
         user_agent_summary = (
-            _parsed_useragent_result.user_agent if _parsed_useragent_result.os else "X"
+            _parsed_useragent_result.user_agent.family
+            if _parsed_useragent_result.os
+            else "X"
         )
 
         return f"{device_summary}, {os_summary}, {user_agent_summary}"
