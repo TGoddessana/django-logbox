@@ -78,30 +78,40 @@ class ServerLogAdmin(admin.ModelAdmin):
     def user_agent_summary(obj):
         if not obj.user_agent:
             return None
+        _parsed_useragent_result = parse(obj.user_agent)
 
-        result = parse(obj.user_agent)
-        return f"{result.device.family}, {result.os.family}, {result.user_agent.family}"
+        device_summary = (
+            _parsed_useragent_result.device.family if _parsed_useragent_result else "X"
+        )
+        os_summary = (
+            _parsed_useragent_result.os.family if _parsed_useragent_result else "X"
+        )
+        user_agent_summary = (
+            _parsed_useragent_result.user_agent if _parsed_useragent_result else "X"
+        )
+
+        return f"{device_summary}, {os_summary}, {user_agent_summary}"
 
     @staticmethod
     @admin.display(description=_("User-Agent Details"))
     def user_agent_details(obj):
         if not obj.user_agent:
             return None
-        result = parse(obj.user_agent)
+        _parsed_useragent_result = parse(obj.user_agent)
 
         device_details = (
-            f"Device: {result.device.family}({result.device.brand}, {result.device.model})"
-            if result.device
+            f"Device: {_parsed_useragent_result.device.family}({_parsed_useragent_result.device.brand}, {_parsed_useragent_result.device.model})"
+            if _parsed_useragent_result.device
             else _("No device data found.")
         )
         os_details = (
-            f"OS: {result.os.family}({result.os.major}.{result.os.minor}.{result.os.patch})"
-            if result.os
+            f"OS: {_parsed_useragent_result.os.family}({_parsed_useragent_result.os.major}.{_parsed_useragent_result.os.minor}.{_parsed_useragent_result.os.patch})"
+            if _parsed_useragent_result.os
             else _("No OS data fount.")
         )
         user_agent_details = (
-            f"User-Agent: {result.user_agent.family}({result.os.major}.{result.os.minor}.{result.os.patch})"
-            if result.os
+            f"User-Agent: {_parsed_useragent_result.user_agent.family}({_parsed_useragent_result.os.major}.{_parsed_useragent_result.os.minor}.{_parsed_useragent_result.os.patch})"
+            if _parsed_useragent_result.os
             else _("No User-Agent data found.")
         )
 
