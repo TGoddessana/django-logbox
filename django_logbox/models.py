@@ -4,9 +4,13 @@ from django.db.models import (
     GenericIPAddressField,
     IntegerField,
     Model,
+    QuerySet,
     TextField,
 )
 from django.utils.translation import gettext_lazy as _
+
+
+class ServerLogQuerySet(QuerySet): ...
 
 
 class ServerLog(Model):
@@ -30,15 +34,41 @@ class ServerLog(Model):
     user_agent = TextField(
         _("user_agent"),
         help_text=_(
-            "User agent string from the client's request header, providing browser and OS details."
+            "User-Agent string from the client's request header, providing browser and OS details."
         ),
         max_length=255,
         null=True,
     )
+
+    # for example: Mac(Apple, Mac) , Samsung SM-S711N(Samsung, SM-S711N)
+    device = CharField(
+        _("device"),
+        help_text=_("Device data parsed from User-Agent request header."),
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    # for example: Android(14), iOS(13.2.3), Windows(10)
+    os = CharField(
+        _("os"),
+        help_text=_("OS data parsed from User-Agent request header."),
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    # for example: Yeti(10), Mobile Safari(13.2.3)
+    browser = CharField(
+        _("browser"),
+        help_text=_("Browser data parsed from User-Agent request header."),
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+
     querystring = TextField(
         _("querystring"),
         help_text=_(
-            "Query parameters of the request as a URL-encoded string, e.g., 'param1=value1&param2=value2'."
+            "Query parameters of the request as a URL-encoded string, e.g., 'param1=value1&ampparam2=value2'."
         ),
         null=True,
     )
@@ -79,6 +109,9 @@ class ServerLog(Model):
     client_ip = GenericIPAddressField(
         _("client_ip"), help_text=_("IP address of the client making the request.")
     )
+
+    # object manager
+    objects = ServerLogQuerySet.as_manager()
 
     def __str__(self) -> str:
         return f"{self.timestamp} {self.method} {self.path} {self.status_code}"
