@@ -15,11 +15,9 @@
 <br />
 <div align="center">
 
-[//]: # (  <a href="https://github.com/tgoddessana/Django-Logbox">)
-
-[//]: # (    <img src="docs/_static/full_logo.svg" style="width:75%";>)
-
-[//]: # (  </a>)
+  <a href="https://github.com/tgoddessana/Django-Logbox">
+    <img src="https://raw.githubusercontent.com/TGoddessana/django-logbox/refs/heads/main/docs/img/django-logbox-logo.png" style="width:75%";>
+  </a>
 
 <h3 align="center">Django-Logbox</h3>
 
