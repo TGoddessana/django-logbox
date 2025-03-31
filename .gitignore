@@ -56,3 +56,6 @@ __pypackages__/
 
 # ruff
 .ruff_cache/
+
+# ignore example_project
+example_project/
