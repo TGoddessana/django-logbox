@@ -53,78 +53,82 @@
 {% block search %}
     {{ block.super }}
 
-    <details style="font-size: 20px; margin-bottom: 20px;">
-        <summary>{% trans "Daily Traffic" %}</summary>
-        <canvas id="reqeustCountChart" style="height:30vh; width:80vw"></canvas>
-    </details>
+    <div>
+        <details style="font-size: 20px; margin-bottom: 20px;">
+            <summary>{% trans "Daily Traffic" %}</summary>
+            <canvas id="reqeustCountChart" style="height:30vh; width:80vw"></canvas>
+        </details>
+    </div>
 
-    <details style="font-size: 20px; margin-bottom: 20px;">
-        <summary>{% trans "User-Agent Statistics" %}</summary>
-        <div class="stats-container">
-            <div class="stats-box">
-                {% trans "TOP 10 Access Device Statistics" %}
-                <table class="stats-table">
-                    <thead>
-                    <tr>
-                        <th>{% trans "Device" %}</th>
-                        <th>{% trans "Count" %}</th>
-                        <th>{% trans "Percentage" %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for device, data in device_data.items %}
+    <div>
+        <details style="font-size: 20px; margin-bottom: 20px;">
+            <summary>{% trans "User-Agent Statistics" %}</summary>
+            <div class="stats-container">
+                <div class="stats-box">
+                    {% trans "TOP 10 Access Device Statistics" %}
+                    <table class="stats-table">
+                        <thead>
                         <tr>
-                            <td>{{ device | default:"Unknown" }}</td>
-                            <td>{{ data.count }}</td>
-                            <td>{{ data.percentage | floatformat:2 }}%</td>
+                            <th>{% trans "Device" %}</th>
+                            <th>{% trans "Count" %}</th>
+                            <th>{% trans "Percentage" %}</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="stats-box">
-                {% trans "TOP 10 Access OS Statistics" %}
-                <table class="stats-table">
-                    <thead>
-                    <tr>
-                        <th>{% trans "OS" %}</th>
-                        <th>{% trans "Count" %}</th>
-                        <th>{% trans "Percentage" %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for os, data in os_data.items %}
+                        </thead>
+                        <tbody>
+                        {% for device, data in device_data.items %}
+                            <tr>
+                                <td>{{ device | default:"Unknown" }}</td>
+                                <td>{{ data.count }}</td>
+                                <td>{{ data.percentage | floatformat:2 }}%</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="stats-box">
+                    {% trans "TOP 10 Access OS Statistics" %}
+                    <table class="stats-table">
+                        <thead>
                         <tr>
-                            <td>{{ os | default:"Unknown" }}</td>
-                            <td>{{ data.count }}</td>
-                            <td>{{ data.percentage | floatformat:2 }}%</td>
+                            <th>{% trans "OS" %}</th>
+                            <th>{% trans "Count" %}</th>
+                            <th>{% trans "Percentage" %}</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="stats-box">
-                {% trans "TOP 10 Access Browser Statistics" %}
-                <table class="stats-table">
-                    <thead>
-                    <tr>
-                        <th>{% trans "Browser" %}</th>
-                        <th>{% trans "Count" %}</th>
-                        <th>{% trans "Percentage" %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for browser, data in browser_data.items %}
+                        </thead>
+                        <tbody>
+                        {% for os, data in os_data.items %}
+                            <tr>
+                                <td>{{ os | default:"Unknown" }}</td>
+                                <td>{{ data.count }}</td>
+                                <td>{{ data.percentage | floatformat:2 }}%</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="stats-box">
+                    {% trans "TOP 10 Access Browser Statistics" %}
+                    <table class="stats-table">
+                        <thead>
                         <tr>
-                            <td>{{ browser | default:"Unknown" }}</td>
-                            <td>{{ data.count }}</td>
-                            <td>{{ data.percentage | floatformat:2 }}%</td>
+                            <th>{% trans "Browser" %}</th>
+                            <th>{% trans "Count" %}</th>
+                            <th>{% trans "Percentage" %}</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% for browser, data in browser_data.items %}
+                            <tr>
+                                <td>{{ browser | default:"Unknown" }}</td>
+                                <td>{{ data.count }}</td>
+                                <td>{{ data.percentage | floatformat:2 }}%</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </details>
+        </details>
+    </div>
 
 {% endblock %}
