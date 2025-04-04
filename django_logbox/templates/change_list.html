@@ -53,14 +53,14 @@
 {% block search %}
     {{ block.super }}
 
-    <div>
+    <div style="width: 100%;">
         <details style="font-size: 20px; margin-bottom: 20px;">
             <summary>{% trans "Daily Traffic" %}</summary>
             <canvas id="reqeustCountChart" style="height:30vh; width:80vw"></canvas>
         </details>
     </div>
-    <br />
-    <div>
+
+    <div style="width: 100%;">
         <details style="font-size: 20px; margin-bottom: 20px;">
             <summary>{% trans "User-Agent Statistics" %}</summary>
             <div class="stats-container">
@@ -130,5 +130,4 @@
             </div>
         </details>
     </div>
-
 {% endblock %}
