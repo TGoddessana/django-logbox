@@ -1,0 +1,130 @@
+{% extends "admin/change_list.html" %}
+{% load static i18n %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'django_logbox/css/style.css' %}">
+    <script src="{% static 'django_logbox/js/chart.umd.min.js' %}" type="module"></script>
+    <script src="{% static 'django_logbox/js/chartjs-plugin-datalabels.min.js' %}" type="module"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const requestCountChartLabels = {{ traffic_data.label_data | safe }};
+            const requestCountChartData = {{ traffic_data.count_data | safe }};
+            const ctx = document.getElementById('reqeustCountChart');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: requestCountChartLabels,
+                    datasets: [{
+                        label: 'Request Count',
+                        data: requestCountChartData,
+                        backgroundColor: '#2196F3'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                min: 0,
+                                stepSize: 100
+                            }
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 10,
+                            top: 10,
+                            bottom: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    }
+                },
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block search %}
+    {{ block.super }}
+
+    <details style="font-size: 20px; margin-bottom: 20px;">
+        <summary>{% trans "Daily Traffic" %}</summary>
+        <canvas id="reqeustCountChart" style="height:30vh; width:80vw"></canvas>
+    </details>
+
+    <details style="font-size: 20px; margin-bottom: 20px;">
+        <summary>{% trans "User-Agent Statistics" %}</summary>
+        <div class="stats-container">
+            <div class="stats-box">
+                {% trans "TOP 10 Access Device Statistics" %}
+                <table class="stats-table">
+                    <thead>
+                    <tr>
+                        <th>{% trans "Device" %}</th>
+                        <th>{% trans "Count" %}</th>
+                        <th>{% trans "Percentage" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for device, data in device_data.items %}
+                        <tr>
+                            <td>{{ device | default:"Unknown" }}</td>
+                            <td>{{ data.count }}</td>
+                            <td>{{ data.percentage | floatformat:2 }}%</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="stats-box">
+                {% trans "TOP 10 Access OS Statistics" %}
+                <table class="stats-table">
+                    <thead>
+                    <tr>
+                        <th>{% trans "OS" %}</th>
+                        <th>{% trans "Count" %}</th>
+                        <th>{% trans "Percentage" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for os, data in os_data.items %}
+                        <tr>
+                            <td>{{ os | default:"Unknown" }}</td>
+                            <td>{{ data.count }}</td>
+                            <td>{{ data.percentage | floatformat:2 }}%</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="stats-box">
+                {% trans "TOP 10 Access Browser Statistics" %}
+                <table class="stats-table">
+                    <thead>
+                    <tr>
+                        <th>{% trans "Browser" %}</th>
+                        <th>{% trans "Count" %}</th>
+                        <th>{% trans "Percentage" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for browser, data in browser_data.items %}
+                        <tr>
+                            <td>{{ browser | default:"Unknown" }}</td>
+                            <td>{{ data.count }}</td>
+                            <td>{{ data.percentage | floatformat:2 }}%</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </details>
+
+{% endblock %}

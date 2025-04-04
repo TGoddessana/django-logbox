@@ -95,6 +95,7 @@ def get_log_data(
             # if response is None, return status code 500
             _get_status_code(response) if response else HTTPStatus.INTERNAL_SERVER_ERROR
         ),
+        "user": request.user if request.user.is_authenticated else None,
     }
 
     if exception:

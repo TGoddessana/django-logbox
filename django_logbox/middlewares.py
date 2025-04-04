@@ -18,40 +18,66 @@ class LogboxMiddleware:
         timestamp = time()
         response = self.get_response(request)
 
-        if not self._filter_requests(request) or not self._filter_responses(response):
+        if self._should_filter_log(request, response):
             return response
 
-        if not hasattr(request, "logbox_logged"):
-            logbox_logger_thread.put_serverlog(
-                get_log_data(
-                    timestamp=timestamp,
-                    request=request,
-                    response=response,
-                    exception=None,
-                ),
-            )
-            request.logbox_logged = True
+        data = get_log_data(
+            timestamp=timestamp,
+            request=request,
+            response=response,
+            exception=None,
+        )
+        logbox_logger_thread.put_serverlog(data=data)
+        request.logbox_logged = True
 
         return response
 
     def process_exception(self, request: HttpRequest, exception: Exception):
-        data = get_log_data(time(), request, None, exception)
+        if self._should_filter_log(request, None):
+            return None
 
-        logbox_logger_thread.put_serverlog(data)
+        data = get_log_data(
+            timestamp=time(),
+            request=request,
+            response=None,
+            exception=exception,
+        )
+        logbox_logger_thread.put_serverlog(data=data)
         request.logbox_logged = True
 
-        return None
+    def _should_filter_log(
+        self, request: HttpRequest, response: HttpResponse | None
+    ) -> bool:
+        """
+        Check if the request and response should be logged.
+
+        :param request: The HTTP request object.
+        :param response: The HTTP response object.
+        :return: True if the request and response should be filtered, False otherwise.
+        """
+        # Check if the request is already logged
+        if hasattr(request, "logbox_logged"):
+            return True
+
+        # Check if the request and response should be logged
+        if not self._should_log_request(request):
+            return True
+        if response:
+            if not self._should_log_response(response):
+                return True
+
+        return False
 
     @staticmethod
-    def _filter_requests(request: HttpRequest) -> bool:
+    def _should_log_request(request: HttpRequest) -> bool:
         return (
-            LogboxMiddleware._filter_client_ip(request)
-            and LogboxMiddleware._filter_server_ip(request)
-            and LogboxMiddleware._filter_path(request)
+            LogboxMiddleware._is_client_ip_allowed(request)
+            and LogboxMiddleware._is_server_ip_allowed(request)
+            and LogboxMiddleware._is_path_allowed(request)
         )
 
     @staticmethod
-    def _filter_client_ip(request: HttpRequest) -> bool:
+    def _is_client_ip_allowed(request: HttpRequest) -> bool:
         """
         Filter requests based on client IP.
 
@@ -63,7 +89,7 @@ class LogboxMiddleware:
         )
 
     @staticmethod
-    def _filter_server_ip(request: HttpRequest):
+    def _is_server_ip_allowed(request: HttpRequest):
         """
         Filter requests based on server IP.
 
@@ -75,7 +101,7 @@ class LogboxMiddleware:
         )
 
     @staticmethod
-    def _filter_path(request: HttpRequest) -> bool:
+    def _is_path_allowed(request: HttpRequest) -> bool:
         """Filter requests based on path patterns."""
 
         return not any(
@@ -84,5 +110,5 @@ class LogboxMiddleware:
         )
 
     @staticmethod
-    def _filter_responses(response: HttpResponse):
+    def _should_log_response(response: HttpResponse):
         return response.status_code in settings.LOGBOX_SETTINGS["LOGGING_STATUS_CODES"]

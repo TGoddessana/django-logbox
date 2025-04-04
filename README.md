@@ -16,7 +16,8 @@
 <div align="center">
 
   <a href="https://github.com/tgoddessana/Django-Logbox">
-    <img src="https://raw.githubusercontent.com/TGoddessana/django-logbox/refs/heads/main/docs/img/django-logbox-logo.png" style="width:75%";>
+    <img src="https://raw.githubusercontent.com/TGoddessana/django-logbox/refs/heads/main/docs/img/django-logbox-logo.png"
+style="width:200px;">
   </a>
 
 <h3 align="center">Django-Logbox</h3>
@@ -36,7 +37,19 @@
 
 ## Django-Logbox
 
-- todo
+`django-logbox` is a Django app that logs all `HttpRequest` information performed in `Django`.
+The following information is recorded and can be viewed in the `Django Admin`:
+
+- `http method`
+- `request path`
+- `http status code`
+- `user-agent` string
+- device, os, browser information (parsed from `user-agent`)
+- `querystring`, `request body` information
+- log creation time
+- exception information (type, message, traceback)
+- server IP, client IP
+- request user, which can be `AnonymousUser` or `User` object
 
 <br/>
 

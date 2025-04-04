@@ -1,16 +1,74 @@
+from django.conf import settings
 from django.db.models import (
+    SET_NULL,
     CharField,
+    Count,
     DateTimeField,
+    F,
+    FloatField,
+    ForeignKey,
     GenericIPAddressField,
     IntegerField,
     Model,
     QuerySet,
     TextField,
 )
+from django.db.models.functions import Cast, TruncDate
 from django.utils.translation import gettext_lazy as _
 
 
-class ServerLogQuerySet(QuerySet): ...
+class ServerLogQuerySet(QuerySet):
+    def get_traffic_data(self):
+        return (
+            ServerLog.objects.annotate(date=TruncDate("timestamp"))
+            .values("date")
+            .annotate(count=Count("id"))
+            .order_by("date")
+        )
+
+    def get_status_code_data(self):
+        total_count = ServerLog.objects.aggregate(total=Count("id"))["total"]
+
+        queryset = (
+            ServerLog.objects.values("status_code")
+            .annotate(count=Count("id"))
+            .annotate(percentage=Cast(F("count"), FloatField()) * 100.0 / total_count)
+            .order_by("status_code")
+        )
+        return queryset
+
+    def get_device_data(self):
+        total_count = ServerLog.objects.aggregate(total=Count("id"))["total"]
+
+        queryset = (
+            ServerLog.objects.values("device")
+            .annotate(count=Count("id"))
+            .annotate(percentage=Cast(F("count"), FloatField()) * 100.0 / total_count)
+            .order_by("-count")[:10]
+        )
+        return queryset
+
+    def get_os_data(self):
+        total_count = ServerLog.objects.aggregate(total=Count("id"))["total"]
+
+        queryset = (
+            ServerLog.objects.values("os")
+            .annotate(count=Count("id"))
+            .annotate(percentage=Cast(F("count"), FloatField()) * 100.0 / total_count)
+            .order_by("-count")[:10]
+        )
+        return queryset
+
+    def get_browser_data(self):
+        total_count = ServerLog.objects.aggregate(total=Count("id"))["total"]
+
+        queryset = (
+            ServerLog.objects.values("browser")
+            .annotate(count=Count("id"))
+            .annotate(percentage=Cast(F("count"), FloatField()) * 100.0 / total_count)
+            .order_by("-count")[:10]
+        )
+        return queryset
 
 
 class ServerLog(Model):
@@ -108,6 +166,16 @@ class ServerLog(Model):
     )
     client_ip = GenericIPAddressField(
         _("client_ip"), help_text=_("IP address of the client making the request.")
+    )
+
+    # user
+    user = ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=SET_NULL,
+        null=True,
+        blank=True,
+        related_name="server_logs",
+        help_text=_("User associated with the request, if authenticated."),
     )
 
     # object manager
