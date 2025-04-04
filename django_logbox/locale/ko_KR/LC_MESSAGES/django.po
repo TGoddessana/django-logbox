@@ -186,7 +186,7 @@ msgstr "일일 트래픽"
 
 #: django_logbox/templates/change_list.html:62
 msgid "User-Agent Statistics"
-msgstr "사용자 에이전트 세부사항"
+msgstr "사용자 에이전트 통계"
 
 #: django_logbox/templates/change_list.html:65
 msgid "TOP 10 Access Device Statistics"
