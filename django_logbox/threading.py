@@ -3,19 +3,12 @@ import threading
 import time
 from queue import Queue
 
+from django.db import close_old_connections
+
 logger = logging.getLogger("logbox")
 
 
 class ServerLogInsertThread(threading.Thread):
-    _instance = None
-    _lock = threading.Lock()
-
-    def __new__(cls, *args, **kwargs):
-        with cls._lock:
-            if cls._instance is None:
-                cls._instance = super(ServerLogInsertThread, cls).__new__(cls)
-        return cls._instance
-
     def __init__(
         self,
         logging_daemon_interval: int,
@@ -29,10 +22,6 @@ class ServerLogInsertThread(threading.Thread):
         self._logging_daemon_interval = logging_daemon_interval
         self._logging_daemon_queue_size = logging_daemon_queue_size
         self._queue = Queue(maxsize=self._logging_daemon_queue_size)
-
-    @staticmethod
-    def get_instance():
-        return ServerLogInsertThread._instance
 
     def run(self) -> None:
         while True:
@@ -51,6 +40,8 @@ class ServerLogInsertThread(threading.Thread):
             self._start_bulk_insertion()
 
     def start(self):
+        close_old_connections()
+
         for t in threading.enumerate():
             if t.name == self.name:
                 return

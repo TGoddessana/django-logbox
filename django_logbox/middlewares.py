@@ -1,16 +1,20 @@
 import re
 from time import time
 
-from django.conf import settings
 from django.http import HttpRequest, HttpResponse
 
+from django_logbox.app_settings import settings
 from django_logbox.threading import ServerLogInsertThread
 from django_logbox.utils import _get_client_ip, _get_server_ip, get_log_data
 
-logbox_logger_thread = ServerLogInsertThread.get_instance()
-
 
 class LogboxMiddleware:
+    logbox_logger_thread = ServerLogInsertThread(
+        logging_daemon_interval=settings.LOGBOX_SETTINGS["LOGGING_DAEMON_INTERVAL"],
+        logging_daemon_queue_size=settings.LOGBOX_SETTINGS["LOGGING_DAEMON_QUEUE_SIZE"],
+    )
+    logbox_logger_thread.start()
+
     def __init__(self, get_response):
         self.get_response = get_response
 
@@ -27,7 +31,7 @@ class LogboxMiddleware:
             response=response,
             exception=None,
         )
-        logbox_logger_thread.put_serverlog(data=data)
+        self.logbox_logger_thread.put_serverlog(data=data)
         request.logbox_logged = True
 
         return response
@@ -42,7 +46,7 @@ class LogboxMiddleware:
             response=None,
             exception=exception,
         )
-        logbox_logger_thread.put_serverlog(data=data)
+        self.logbox_logger_thread.put_serverlog(data=data)
         request.logbox_logged = True
 
     def _should_filter_log(
