@@ -5,6 +5,8 @@ from queue import Queue
 
 from django.db import close_old_connections
 
+from django_logbox.app_settings import settings
+
 logger = logging.getLogger("logbox")
 
 
@@ -54,3 +56,9 @@ class ServerLogInsertThread(threading.Thread):
             bulk_item.append(self._queue.get())
         if bulk_item:
             self._serverlog_model.objects.bulk_create(bulk_item)
+
+
+logbox_logger_thread = ServerLogInsertThread(
+    logging_daemon_interval=settings.LOGBOX_SETTINGS["LOGGING_DAEMON_INTERVAL"],
+    logging_daemon_queue_size=settings.LOGBOX_SETTINGS["LOGGING_DAEMON_QUEUE_SIZE"],
+)
