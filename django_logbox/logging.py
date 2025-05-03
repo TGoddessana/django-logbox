@@ -1,8 +1,8 @@
+from datetime import datetime
 from http import HTTPStatus
 
 from django.http import HttpRequest, HttpResponse
 from django.utils import timezone
-from django.utils.datetime_safe import datetime
 from ua_parser import parse
 
 from django_logbox.filtering import LogboxLogFilter
