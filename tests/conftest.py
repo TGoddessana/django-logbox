@@ -53,26 +53,3 @@ def pytest_configure(config):
     )
 
     django.setup()
-
-
-@pytest.fixture
-def factory():
-    return RequestFactory()
-
-
-@pytest.fixture
-def log_data():
-    return {
-        "method": "GET",
-        "path": "/test-path",
-        "status_code": 200,
-        "user_agent": "test-agent",
-        "querystring": None,
-        "request_body": None,
-        "timestamp": datetime(2001, 12, 24, 0, 0, 0),
-        "exception_type": None,
-        "exception_message": None,
-        "traceback": None,
-        "server_ip": "127.0.0.1",
-        "client_ip": "127.0.0.1",
-    }

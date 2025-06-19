@@ -1,9 +1,10 @@
 import logging
+import os
+import signal
 import threading
 import time
 from queue import Queue
-
-from django.db import close_old_connections
+from types import FrameType
 
 from django_logbox.app_settings import settings
 
@@ -15,9 +16,11 @@ class ServerLogInsertThread(threading.Thread):
         self,
         logging_daemon_interval: int,
         logging_daemon_queue_size: int,
-        name: str = "logbox_logger_thread",
     ):
-        super().__init__(name=name, daemon=True)
+        super().__init__(
+            name="logbox_logger_thread",
+            daemon=True,
+        )
         from django_logbox.models import ServerLog
 
         self._serverlog_model = ServerLog
@@ -25,8 +28,19 @@ class ServerLogInsertThread(threading.Thread):
         self._logging_daemon_queue_size = logging_daemon_queue_size
         self._queue = Queue(maxsize=self._logging_daemon_queue_size)
 
+        self._stop_event = threading.Event()
+        signal.signal(signal.SIGINT, self._exit_gracefully)
+        signal.signal(signal.SIGTERM, self._exit_gracefully)
+
     def run(self) -> None:
-        while True:
+        """
+        Continuously runs the logging thread, periodically inserting logs in bulk.
+
+        This method sleeps for the specified interval (`_logging_daemon_interval`)
+        and then triggers the bulk insertion of logs from the queue. If an exception
+        occurs during the process, it logs the error.
+        """
+        while not self._stop_event.is_set():
             try:
                 time.sleep(self._logging_daemon_interval)
                 self._start_bulk_insertion()
@@ -41,21 +55,23 @@ class ServerLogInsertThread(threading.Thread):
             )
             self._start_bulk_insertion()
 
-    def start(self):
-        close_old_connections()
-
-        for t in threading.enumerate():
-            if t.name == self.name:
-                return
-        super().start()
-        logger.info(f"Logbox logger thread started: {self.name}")
-
     def _start_bulk_insertion(self):
         bulk_item = []
         while not self._queue.empty():
             bulk_item.append(self._queue.get())
         if bulk_item:
             self._serverlog_model.objects.bulk_create(bulk_item)
+
+    def _exit_gracefully(
+        self,
+        sig: int,
+        frame: FrameType | None,
+    ) -> None:
+        logger.info(f"Received signal {sig}. Exiting gracefully...")
+        self._stop_event.set()
+        self._start_bulk_insertion()
+        logger.info("All logs have been inserted. Exiting.")
+        exit(0)
 
 
 logbox_logger_thread = ServerLogInsertThread(
