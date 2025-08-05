@@ -53,6 +53,8 @@ The following information is recorded and can be viewed in the `Django Admin`:
 
 <br/>
 
+<img src="https://raw.githubusercontent.com/TGoddessana/django-logbox/refs/heads/main/docs/img/example-admin.png" alt="Django Logbox Admin Example" style="width: 100%; max-width: 800px;">
+
 ## License
 
 ---
