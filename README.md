@@ -53,7 +53,16 @@ The following information is recorded and can be viewed in the `Django Admin`:
 
 <br/>
 
+### Example Screenshot
+
+this is an example screenshot of the `Django Logbox` admin interface, showing logged requests and their details.
+
 <img src="https://raw.githubusercontent.com/TGoddessana/django-logbox/refs/heads/main/docs/img/example-admin.png" alt="Django Logbox Admin Example" style="width: 100%; max-width: 800px;">
+
+... you can also check the traceback of the exception if it exists, and the request body and querystring information in
+detail page.
+
+<img src="https://raw.githubusercontent.com/TGoddessana/django-logbox/refs/heads/main/docs/img/example-admin2.png" alt="Django Logbox Admin Example2" style="width: 100%; max-width: 800px;">
 
 ## License
 
