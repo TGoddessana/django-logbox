@@ -25,7 +25,7 @@ style="width:200px;">
   <p align="center">
     Your small, but useful django log box. 📦
     <br />
-    <a href="https://tgoddessana.github.io/Django-Logbox/"><strong>Explore the docs »</strong></a>
+    <a href="https://tgoddessana.github.io/django-logbox/"><strong>Explore the docs »</strong></a>
     <br />
   </p>
 </div>
