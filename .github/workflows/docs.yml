@@ -1,27 +1,22 @@
-name: "Pull Request Docs Check"
-on:
-  - pull_request
+name: Sphinx build
+
+on: push
 
 jobs:
-  docs:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: ammaraskar/sphinx-action@master
+      - uses: actions/checkout@v3
+      - name: Build HTML
+        uses: ammaraskar/sphinx-action@0.4
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
         with:
-          docs-folder: "docs/"
-      - name: Commit documentation changes
-        run: |
-          git clone https://github.com/TGoddessana/django-logbox.git --branch gh-pages --single-branch gh-pages
-          cp -r docs/_build/html/* gh-pages/
-          cd gh-pages
-          git config --local user.email "twicegoddessana1229@gmail.com"
-          git config --local user.name "TGoddessana"
-          git add .
-          git commit -m "Update documentation" -a || true
-      - name: Push changes
-        uses: ad-m/github-push-action@master
+          name: html-docs
+          path: docs/_build/html/
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
         with:
-          branch: gh-pages
-          directory: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/_build/html
