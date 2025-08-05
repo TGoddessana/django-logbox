@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings &mdash; django-logbox  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Usage" href="usage.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            django-logbox
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#available-settings">Available Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#logging-http-methods">LOGGING_HTTP_METHODS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logging-server-ips-to-exclude">LOGGING_SERVER_IPS_TO_EXCLUDE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logging-client-ips-to-exclude">LOGGING_CLIENT_IPS_TO_EXCLUDE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logging-status-codes">LOGGING_STATUS_CODES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logging-paths-to-exclude">LOGGING_PATHS_TO_EXCLUDE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logging-daemon-queue-size">LOGGING_DAEMON_QUEUE_SIZE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logging-daemon-interval">LOGGING_DAEMON_INTERVAL</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#default-settings">Default Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">django-logbox</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Settings</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/settings.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="settings">
+<h1>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h1>
+<p>Django-Logbox provides several customization options that can be configured in your Django settings file. These settings allow you to control which requests are logged, how they are processed, and more.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading"></a></h2>
+<p>To customize Django-Logbox, add a <code class="docutils literal notranslate"><span class="pre">LOGBOX_SETTINGS</span></code> dictionary to your Django settings file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Your custom settings here</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="available-settings">
+<h2>Available Settings<a class="headerlink" href="#available-settings" title="Permalink to this heading"></a></h2>
+<p>The following settings are available for customization:</p>
+<section id="logging-http-methods">
+<h3>LOGGING_HTTP_METHODS<a class="headerlink" href="#logging-http-methods" title="Permalink to this heading"></a></h3>
+<p>A list of HTTP methods to log. By default, all methods are logged.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;LOGGING_HTTP_METHODS&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="s2">&quot;PATCH&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To log only specific methods, provide a list of the methods you want to log:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;LOGGING_HTTP_METHODS&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="s2">&quot;PATCH&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">],</span>  <span class="c1"># Don&#39;t log GET requests</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="logging-server-ips-to-exclude">
+<h3>LOGGING_SERVER_IPS_TO_EXCLUDE<a class="headerlink" href="#logging-server-ips-to-exclude" title="Permalink to this heading"></a></h3>
+<p>A list of server IP addresses to exclude from logging. By default, no IPs are excluded.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;LOGGING_SERVER_IPS_TO_EXCLUDE&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;192.168.1.100&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="logging-client-ips-to-exclude">
+<h3>LOGGING_CLIENT_IPS_TO_EXCLUDE<a class="headerlink" href="#logging-client-ips-to-exclude" title="Permalink to this heading"></a></h3>
+<p>A list of client IP addresses to exclude from logging. By default, no IPs are excluded.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;LOGGING_CLIENT_IPS_TO_EXCLUDE&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;192.168.1.100&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="logging-status-codes">
+<h3>LOGGING_STATUS_CODES<a class="headerlink" href="#logging-status-codes" title="Permalink to this heading"></a></h3>
+<p>A list of HTTP status codes to log. By default, all status codes are logged.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;LOGGING_STATUS_CODES&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">401</span><span class="p">,</span> <span class="mi">403</span><span class="p">,</span> <span class="mi">404</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To log only error responses:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;LOGGING_STATUS_CODES&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">400</span><span class="p">,</span> <span class="mi">401</span><span class="p">,</span> <span class="mi">403</span><span class="p">,</span> <span class="mi">404</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span>  <span class="c1"># Only log error responses</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="logging-paths-to-exclude">
+<h3>LOGGING_PATHS_TO_EXCLUDE<a class="headerlink" href="#logging-paths-to-exclude" title="Permalink to this heading"></a></h3>
+<p>A list of path regex patterns to exclude from logging. By default, no paths are excluded.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;LOGGING_PATHS_TO_EXCLUDE&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;^/static/&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;^/media/&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;^/admin/&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="logging-daemon-queue-size">
+<h3>LOGGING_DAEMON_QUEUE_SIZE<a class="headerlink" href="#logging-daemon-queue-size" title="Permalink to this heading"></a></h3>
+<p>The number of logs to insert in bulk. The default is 1, which means logs are inserted instantly.</p>
+<p>Setting a higher value can improve performance by reducing database operations, but it means logs will be inserted in batches rather than immediately.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;LOGGING_DAEMON_QUEUE_SIZE&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>  <span class="c1"># Insert logs in batches of 10</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="logging-daemon-interval">
+<h3>LOGGING_DAEMON_INTERVAL<a class="headerlink" href="#logging-daemon-interval" title="Permalink to this heading"></a></h3>
+<p>The number of seconds between log insertion attempts. The default is 0.</p>
+<p>This setting is useful when combined with a higher <code class="docutils literal notranslate"><span class="pre">LOGGING_DAEMON_QUEUE_SIZE</span></code> to control how frequently batches of logs are inserted.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;LOGGING_DAEMON_QUEUE_SIZE&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;LOGGING_DAEMON_INTERVAL&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># Insert logs every 5 seconds or when queue size reaches 10</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="default-settings">
+<h2>Default Settings<a class="headerlink" href="#default-settings" title="Permalink to this heading"></a></h2>
+<p>Here are the default settings used by Django-Logbox if not overridden:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DEFAULT_LOGBOX_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># HTTP methods to log. Default to all</span>
+    <span class="s2">&quot;LOGGING_HTTP_METHODS&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="s2">&quot;PATCH&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">],</span>
+    <span class="c1"># exclude server IPs from logging. Default to not exclude any</span>
+    <span class="s2">&quot;LOGGING_SERVER_IPS_TO_EXCLUDE&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="c1"># exclude client IPs from logging. Default to not exclude any</span>
+    <span class="s2">&quot;LOGGING_CLIENT_IPS_TO_EXCLUDE&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="c1"># Status codes to log. Default to all</span>
+    <span class="s2">&quot;LOGGING_STATUS_CODES&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">http_code</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">http_code</span> <span class="ow">in</span> <span class="n">HTTPStatus</span><span class="p">],</span>
+    <span class="c1"># Path regex to exclude from logging. Default to not exclude any</span>
+    <span class="s2">&quot;LOGGING_PATHS_TO_EXCLUDE&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="c1"># The number of logs to insert in bulk. The default is 1, which means insert logs instantly.</span>
+    <span class="s2">&quot;LOGGING_DAEMON_QUEUE_SIZE&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="c1"># The number of seconds between log insertion attempts. The default is 0.</span>
+    <span class="s2">&quot;LOGGING_DAEMON_INTERVAL&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, tgoddessana.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
