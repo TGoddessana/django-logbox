@@ -39,10 +39,20 @@ class LogboxLogFilter:
             and LogboxLogFilter.is_server_ip_allowed(
                 server_ip=get_server_ip(request=request)
             )
+            and LogboxLogFilter.is_method_allowed(
+                method=request.method,
+            )
             and LogboxLogFilter.is_path_allowed(
                 request_path=request.path,
             )
         )
+
+    @staticmethod
+    def is_method_allowed(method: str) -> bool:
+        """
+        Check if the HTTP method is allowed to be logged.
+        """
+        return method in settings.LOGBOX_SETTINGS["LOGGING_HTTP_METHODS"]
 
     @staticmethod
     def is_client_ip_allowed(client_ip: str) -> bool:
