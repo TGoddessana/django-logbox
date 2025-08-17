@@ -3,7 +3,7 @@ import re
 from django.http import HttpRequest, HttpResponse
 
 from django_logbox.app_settings import settings
-from django_logbox.utils import get_client_ip, get_server_ip
+from django_logbox.utils import get_client_ip, get_method, get_server_ip
 
 
 class LogboxLogFilter:
@@ -40,7 +40,7 @@ class LogboxLogFilter:
                 server_ip=get_server_ip(request=request)
             )
             and LogboxLogFilter.is_method_allowed(
-                method=request.method,
+                method=get_method(request=request),
             )
             and LogboxLogFilter.is_path_allowed(
                 request_path=request.path,
