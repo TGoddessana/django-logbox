@@ -56,14 +56,18 @@ class TestLogboxLogFilter:
 
     @patch("django_logbox.filtering.get_client_ip", return_value="127.0.0.1")
     @patch("django_logbox.filtering.get_server_ip", return_value="127.0.0.1")
+    @patch("django_logbox.filtering.get_method", return_value="GET")
     @patch.object(LogboxLogFilter, "is_client_ip_allowed", return_value=True)
     @patch.object(LogboxLogFilter, "is_server_ip_allowed", return_value=True)
+    @patch.object(LogboxLogFilter, "is_method_allowed", return_value=True)
     @patch.object(LogboxLogFilter, "is_path_allowed", return_value=True)
     def test_should_log_request_when_all_conditions_are_met(
         self,
         mock_is_path_allowed,
+        mock_is_method_allowed,  # 추가된 매개변수
         mock_is_server_ip_allowed,
         mock_is_client_ip_allowed,
+        mock_get_method,  # 추가된 매개변수
         mock_get_server_ip,
         mock_get_client_ip,
     ):
@@ -75,15 +79,22 @@ class TestLogboxLogFilter:
         assert result is True
         mock_get_client_ip.assert_called_once_with(request=request)
         mock_get_server_ip.assert_called_once_with(request=request)
+        mock_get_method.assert_called_once_with(request=request)  # 추가된 검증
         mock_is_client_ip_allowed.assert_called_once_with(client_ip="127.0.0.1")
         mock_is_server_ip_allowed.assert_called_once_with(server_ip="127.0.0.1")
+        mock_is_method_allowed.assert_called_once_with(method="GET")  # 추가된 검증
         mock_is_path_allowed.assert_called_once_with(request_path="/api/test")
 
     @patch("django_logbox.filtering.get_client_ip", return_value="127.0.0.1")
     @patch("django_logbox.filtering.get_server_ip", return_value="127.0.0.1")
+    @patch("django_logbox.filtering.get_method", return_value="GET")  # 추가된 모킹
     @patch.object(LogboxLogFilter, "is_client_ip_allowed", return_value=False)
     def test_should_log_request_when_client_ip_not_allowed(
-        self, mock_is_client_ip_allowed, mock_get_server_ip, mock_get_client_ip
+        self,
+        mock_is_client_ip_allowed,
+        mock_get_method,
+        mock_get_server_ip,
+        mock_get_client_ip,  # 수정됨
     ):
         request = MagicMock(spec=HttpRequest)
 
