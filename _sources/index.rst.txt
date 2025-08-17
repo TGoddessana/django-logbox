@@ -21,4 +21,5 @@ responses, and exceptions, making it easier to monitor and debug your Django app
    settings
    usage
    api
+   changelog
 
