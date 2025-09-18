@@ -160,10 +160,24 @@ class ServerLog(Model):
         null=True,
     )
 
-    # ip
-    server_ip = GenericIPAddressField(
-        _("server_ip"), help_text=_("IP address of the server handling the request.")
+    # server-side info
+    server_host = CharField(
+        _("server_host"),
+        help_text=_("Hostname of the server handling the request."),
+        null=True,
+        max_length=255,
     )
+    server_ip = GenericIPAddressField(
+        _("server_ip"),
+        help_text=_("IP address of the server handling the request."),
+    )
+    server_port = IntegerField(
+        _("server_port"),
+        help_text=_("Port number on which the server is listening."),
+        null=True,
+    )
+
+    # client-side info
     client_ip = GenericIPAddressField(
         _("client_ip"), help_text=_("IP address of the client making the request.")
     )

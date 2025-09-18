@@ -63,7 +63,9 @@ class ServerLogAdmin(admin.ModelAdmin):
             _("IP Addresses"),
             {
                 "fields": (
+                    "server_host",
                     "server_ip",
+                    "server_port",
                     "client_ip",
                 ),
             },

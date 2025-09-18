@@ -16,7 +16,9 @@ from django_logbox.utils import (
     get_path,
     get_querystring,
     get_request_body,
+    get_server_host,
     get_server_ip,
+    get_server_port,
     get_status_code,
     get_traceback,
     get_user_agent,
@@ -65,7 +67,9 @@ def get_log_data(
         "querystring": get_querystring(request),
         "request_body": get_request_body(request),
         "timestamp": timestamp,
-        "server_ip": get_server_ip(request),
+        "server_host": get_server_host(request),
+        "server_ip": get_server_ip(),
+        "server_port": get_server_port(request),
         "client_ip": get_client_ip(request),
         "status_code": (
             # if response is None, return status code 500.

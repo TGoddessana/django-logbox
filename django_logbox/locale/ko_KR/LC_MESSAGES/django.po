@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-04 20:57+0900\n"
+"POT-Creation-Date: 2025-09-19 01:39+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: JAEGYUN JUNG <twicegoddessana1229@gmail.com>\n"
 "Language: ko_KR\n"
@@ -33,7 +33,7 @@ msgstr "IP 주소"
 msgid "User-Agent details"
 msgstr "사용자 에이전트 세부사항"
 
-#: django_logbox/apps.py:8
+#: django_logbox/apps.py:10
 msgid "Logbox"
 msgstr "로그박스"
 
@@ -152,74 +152,82 @@ msgstr "트레이스백"
 msgid "Full traceback of the exception for debugging purposes."
 msgstr "디버깅 목적을 위한 예외의 전체 트레이스백."
 
-#: django_logbox/models.py:165
+#: django_logbox/models.py:166
+msgid "Hostname of the server handling the request."
+msgstr "요청을 처리하는 서버의 호스트 이름."
+
+#: django_logbox/models.py:171
 msgid "server_ip"
 msgstr "서버 ip"
 
-#: django_logbox/models.py:165
+#: django_logbox/models.py:172
 msgid "IP address of the server handling the request."
 msgstr "요청을 처리하는 서버의 ip 주소."
 
-#: django_logbox/models.py:168
+#: django_logbox/models.py:176
+msgid "Port number on which the server is listening."
+msgstr "서버가 수신 대기 중인 포트 번호."
+
+#: django_logbox/models.py:182
 msgid "client_ip"
 msgstr "클라이언트 ip"
 
-#: django_logbox/models.py:168
+#: django_logbox/models.py:182
 msgid "IP address of the client making the request."
 msgstr "요청한 클라이언트의 ip 주소."
 
-#: django_logbox/models.py:178
+#: django_logbox/models.py:192
 msgid "User associated with the request, if authenticated."
 msgstr "요청이 인증된 경우, 관련된 사용자 정보."
 
-#: django_logbox/models.py:188
+#: django_logbox/models.py:202
 msgid "Server Log"
 msgstr "서버 로그"
 
-#: django_logbox/models.py:189
+#: django_logbox/models.py:203
 msgid "Server Logs"
 msgstr "서버 로그"
 
-#: django_logbox/templates/change_list.html:57
+#: django_logbox/templates/change_list.html:58
 msgid "Daily Traffic"
 msgstr "일일 트래픽"
 
-#: django_logbox/templates/change_list.html:62
+#: django_logbox/templates/change_list.html:65
 msgid "User-Agent Statistics"
 msgstr "사용자 에이전트 통계"
 
-#: django_logbox/templates/change_list.html:65
+#: django_logbox/templates/change_list.html:68
 msgid "TOP 10 Access Device Statistics"
 msgstr "상위 10 접근 디바이스 통계"
 
-#: django_logbox/templates/change_list.html:69
+#: django_logbox/templates/change_list.html:72
 msgid "Device"
 msgstr "디바이스"
 
-#: django_logbox/templates/change_list.html:70
-#: django_logbox/templates/change_list.html:91
-#: django_logbox/templates/change_list.html:112
+#: django_logbox/templates/change_list.html:73
+#: django_logbox/templates/change_list.html:94
+#: django_logbox/templates/change_list.html:115
 msgid "Count"
 msgstr "개수"
 
-#: django_logbox/templates/change_list.html:71
-#: django_logbox/templates/change_list.html:92
-#: django_logbox/templates/change_list.html:113
+#: django_logbox/templates/change_list.html:74
+#: django_logbox/templates/change_list.html:95
+#: django_logbox/templates/change_list.html:116
 msgid "Percentage"
 msgstr "백분율"
 
-#: django_logbox/templates/change_list.html:86
+#: django_logbox/templates/change_list.html:89
 msgid "TOP 10 Access OS Statistics"
 msgstr "상위 10 접근 운영체제 통계"
 
-#: django_logbox/templates/change_list.html:90
+#: django_logbox/templates/change_list.html:93
 msgid "OS"
 msgstr "운영체제"
 
-#: django_logbox/templates/change_list.html:107
+#: django_logbox/templates/change_list.html:110
 msgid "TOP 10 Access Browser Statistics"
 msgstr "상위 10 접근 브라우저 통계"
 
-#: django_logbox/templates/change_list.html:111
+#: django_logbox/templates/change_list.html:114
 msgid "Browser"
 msgstr "브라우저"

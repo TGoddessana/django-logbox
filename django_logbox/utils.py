@@ -1,3 +1,4 @@
+import socket
 import traceback
 
 from django.http import HttpRequest, HttpResponse
@@ -44,8 +45,18 @@ def get_traceback(exception: Exception) -> str:
     return "".join(traceback.format_tb(exception.__traceback__))
 
 
-def get_server_ip(request: HttpRequest):
+def get_server_host(request: HttpRequest):
     return request.get_host()
+
+
+def get_server_port(request: HttpRequest):
+    return request.get_port()
+
+
+def get_server_ip():
+    hostname = socket.gethostname()
+    server_ip = socket.gethostbyname(hostname)
+    return server_ip
 
 
 def get_client_ip(request: HttpRequest):

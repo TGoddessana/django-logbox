@@ -37,7 +37,7 @@ class LogboxLogFilter:
                 client_ip=get_client_ip(request=request)
             )
             and LogboxLogFilter.is_server_ip_allowed(
-                server_ip=get_server_ip(request=request)
+                server_ip=get_server_ip(),
             )
             and LogboxLogFilter.is_method_allowed(
                 method=get_method(request=request),
