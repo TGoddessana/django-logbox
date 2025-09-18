@@ -32,6 +32,8 @@ ServerLog
         # IP fields
         server_ip = GenericIPAddressField()
         client_ip = GenericIPAddressField()
+        server_host = CharField(max_length=255, null=True, blank=True)
+        server_port = IntegerField(null=True, blank=True)
         
         # User field
         user = ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=SET_NULL, null=True, blank=True, related_name="server_logs")
@@ -53,6 +55,8 @@ The ``ServerLog`` model stores detailed information about HTTP requests. Each fi
 - **traceback**: The full traceback of the exception
 - **server_ip**: The IP address of the server
 - **client_ip**: The IP address of the client
+- **server_host**: The hostname of the server
+- **server_port**: The port number the server is running on
 - **user**: The authenticated user associated with the request
 
 ServerLogQuerySet
@@ -113,7 +117,7 @@ Utility Functions
 .. code-block:: python
 
     def get_client_ip(request)
-    def get_server_ip(request)
+    def get_server_ip()
     def get_method(request)
     def get_path(request)
     def get_querystring(request)
@@ -122,25 +126,29 @@ Utility Functions
     def get_status_code(response)
     def get_exception_type(exception)
     def get_traceback(exception)
+    def get_server_host(request)
+    def get_server_port(request)
     def device_str(user_agent)
     def os_str(user_agent)
     def browser_str(user_agent)
 
 These utility functions extract specific information from request, response, and exception objects:
 
-- **get_client_ip()**: Gets the client's IP address
-- **get_server_ip()**: Gets the server's IP address
-- **get_method()**: Gets the HTTP method
+- **get_client_ip()**: Gets the client's IP address from the request
+- **get_server_ip()**: Gets the server's IP address using socket information
+- **get_method()**: Gets the HTTP method from the request
 - **get_path()**: Gets the request path
-- **get_querystring()**: Gets the query parameters
-- **get_request_body()**: Gets the request body
-- **get_user_agent()**: Gets the User-Agent string
-- **get_status_code()**: Gets the HTTP status code
-- **get_exception_type()**: Gets the exception type
-- **get_traceback()**: Gets the exception traceback
-- **device_str()**: Parses device information from User-Agent
-- **os_str()**: Parses OS information from User-Agent
-- **browser_str()**: Parses browser information from User-Agent
+- **get_querystring()**: Gets the query parameters from the request
+- **get_request_body()**: Gets the request body content
+- **get_user_agent()**: Gets the User-Agent string from the request
+- **get_status_code()**: Gets the HTTP status code from the response
+- **get_exception_type()**: Gets the exception type name
+- **get_traceback()**: Gets the formatted exception traceback
+- **get_server_host()**: Gets the server hostname from the request
+- **get_server_port()**: Gets the server port number from the request
+- **device_str()**: Parses device information from User-Agent (family, brand, model)
+- **os_str()**: Parses OS information from User-Agent (family, version)
+- **browser_str()**: Parses browser information from User-Agent (family, version)
 
 Threading
 --------

@@ -128,6 +128,8 @@
     <span class="c1"># IP fields</span>
     <span class="n">server_ip</span> <span class="o">=</span> <span class="n">GenericIPAddressField</span><span class="p">()</span>
     <span class="n">client_ip</span> <span class="o">=</span> <span class="n">GenericIPAddressField</span><span class="p">()</span>
+    <span class="n">server_host</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">server_port</span> <span class="o">=</span> <span class="n">IntegerField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># User field</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;server_logs&quot;</span><span class="p">)</span>
@@ -150,6 +152,8 @@
 <li><p><strong>traceback</strong>: The full traceback of the exception</p></li>
 <li><p><strong>server_ip</strong>: The IP address of the server</p></li>
 <li><p><strong>client_ip</strong>: The IP address of the client</p></li>
+<li><p><strong>server_host</strong>: The hostname of the server</p></li>
+<li><p><strong>server_port</strong>: The port number the server is running on</p></li>
 <li><p><strong>user</strong>: The authenticated user associated with the request</p></li>
 </ul>
 </section>
@@ -206,7 +210,7 @@
 <section id="id1">
 <h3>Utility Functions<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_client_ip</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_server_ip</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_server_ip</span><span class="p">()</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_method</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_path</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_querystring</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
@@ -215,6 +219,8 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_status_code</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_exception_type</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_traceback</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_server_host</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_server_port</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">device_str</span><span class="p">(</span><span class="n">user_agent</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">os_str</span><span class="p">(</span><span class="n">user_agent</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">browser_str</span><span class="p">(</span><span class="n">user_agent</span><span class="p">)</span>
@@ -222,19 +228,21 @@
 </div>
 <p>These utility functions extract specific information from request, response, and exception objects:</p>
 <ul class="simple">
-<li><p><strong>get_client_ip()</strong>: Gets the client’s IP address</p></li>
-<li><p><strong>get_server_ip()</strong>: Gets the server’s IP address</p></li>
-<li><p><strong>get_method()</strong>: Gets the HTTP method</p></li>
+<li><p><strong>get_client_ip()</strong>: Gets the client’s IP address from the request</p></li>
+<li><p><strong>get_server_ip()</strong>: Gets the server’s IP address using socket information</p></li>
+<li><p><strong>get_method()</strong>: Gets the HTTP method from the request</p></li>
 <li><p><strong>get_path()</strong>: Gets the request path</p></li>
-<li><p><strong>get_querystring()</strong>: Gets the query parameters</p></li>
-<li><p><strong>get_request_body()</strong>: Gets the request body</p></li>
-<li><p><strong>get_user_agent()</strong>: Gets the User-Agent string</p></li>
-<li><p><strong>get_status_code()</strong>: Gets the HTTP status code</p></li>
-<li><p><strong>get_exception_type()</strong>: Gets the exception type</p></li>
-<li><p><strong>get_traceback()</strong>: Gets the exception traceback</p></li>
-<li><p><strong>device_str()</strong>: Parses device information from User-Agent</p></li>
-<li><p><strong>os_str()</strong>: Parses OS information from User-Agent</p></li>
-<li><p><strong>browser_str()</strong>: Parses browser information from User-Agent</p></li>
+<li><p><strong>get_querystring()</strong>: Gets the query parameters from the request</p></li>
+<li><p><strong>get_request_body()</strong>: Gets the request body content</p></li>
+<li><p><strong>get_user_agent()</strong>: Gets the User-Agent string from the request</p></li>
+<li><p><strong>get_status_code()</strong>: Gets the HTTP status code from the response</p></li>
+<li><p><strong>get_exception_type()</strong>: Gets the exception type name</p></li>
+<li><p><strong>get_traceback()</strong>: Gets the formatted exception traceback</p></li>
+<li><p><strong>get_server_host()</strong>: Gets the server hostname from the request</p></li>
+<li><p><strong>get_server_port()</strong>: Gets the server port number from the request</p></li>
+<li><p><strong>device_str()</strong>: Parses device information from User-Agent (family, brand, model)</p></li>
+<li><p><strong>os_str()</strong>: Parses OS information from User-Agent (family, version)</p></li>
+<li><p><strong>browser_str()</strong>: Parses browser information from User-Agent (family, version)</p></li>
 </ul>
 </section>
 </section>
