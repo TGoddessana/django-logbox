@@ -147,3 +147,8 @@ Over time, the logs table can grow quite large. You may want to periodically cle
     ServerLog.objects.filter(timestamp__lt=thirty_days_ago).delete()
 
 You can automate this cleanup using Django's management commands or a task scheduler like Celery.
+
+
+Integrating with Django-REST-Framework
+--------------------------------------
+

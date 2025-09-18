@@ -13,6 +13,16 @@ Django-Logbox follows `Semantic Versioning <https://semver.org/>`_:
 - **PATCH** version for backward-compatible bug fixes
 
 
+Version 1.1.0
+-------------------------
+
+Released on: September 19, 2025
+
+- Added support for server host and port information in logs
+- Improved HTTP method extraction from requests using utility functions
+- Enhanced request filtering capabilities
+
+
 Version 1.0.0
 -------------------------
 
