@@ -55,7 +55,7 @@ class ServerLogAdmin(admin.ModelAdmin):
                 "fields": (
                     "exception_type",
                     "exception_message",
-                    "traceback",
+                    "formatted_traceback",
                 ),
             },
         ),
@@ -136,6 +136,13 @@ class ServerLogAdmin(admin.ModelAdmin):
             f"<li>Device: {obj.device}</li>"
             f"<li>OS: {obj.os}</li>"
             f"<li>Browser: {obj.browser}</li>"
+        )
+
+    def formatted_traceback(self, obj):
+        text = obj.traceback or ""
+        return format_html(
+            "<pre style='white-space: pre-wrap; word-break: break-word; overflow: auto; margin: 0'>{}</pre>",
+            text,
         )
 
     def get_queryset(self, request):
