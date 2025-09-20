@@ -7,7 +7,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("auth", "__first__"),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("django_logbox", "0006_backfill_device_os_browser_fields"),
     ]
 

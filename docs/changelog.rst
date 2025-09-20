@@ -12,6 +12,11 @@ Django-Logbox follows `Semantic Versioning <https://semver.org/>`_:
 - **MINOR** version for new functionality in a backward-compatible manner
 - **PATCH** version for backward-compatible bug fixes
 
+Version 1.1.1
+-------------------------
+Released on: 2025-09-25
+
+- Replace the dependency(`0007_serverlog_user_alter_serverlog_querystring.py`) with a swappable_dependency. (Covers cases using custom user models.)
 
 Version 1.1.0
 -------------------------
