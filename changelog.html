@@ -94,11 +94,11 @@
 </section>
 <section id="version-1-1-0">
 <h2>Version 1.1.0<a class="headerlink" href="#version-1-1-0" title="Permalink to this heading"></a></h2>
-<p>Released on: September 19, 2025</p>
+<p>Released on: 2025-09-20</p>
 <ul class="simple">
-<li><p>Added support for server host and port information in logs</p></li>
-<li><p>Improved HTTP method extraction from requests using utility functions</p></li>
-<li><p>Enhanced request filtering capabilities</p></li>
+<li><p>When storing the server’s IP, we retrieve it using <cite>socket</cite> instead of <cite>get_host()</cite></p></li>
+<li><p><cite>server_host</cite>, <cite>server_ip</cite>, <cite>server_port</cite> are stored separately. The existing <cite>server_ip</cite> field is split into these three fields for storage.</p></li>
+<li><p>On the admin page, tracebacks are loaded in a more readable format using &lt;pre&gt; tags</p></li>
 </ul>
 </section>
 <section id="version-1-0-0">
